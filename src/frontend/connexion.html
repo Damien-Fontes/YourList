@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Connexion</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <h1>Se connecter</h1>
+    <form id="connexionForm">
+        <div class="champs">
+            <p><input type="text" id="identifiant" placeholder="Nom d'utilisateur" /></p>
+            <p><input type="password" id="mdp" placeholder="Mot de passe" /></p>
+            <p><a href="">Mot de passe oublié</a></p>
+        </div>
+        <p id="erreur">Mot de passe ou identifiant incorrect</p>
+        <input type="button" id="connexionBtn" value="Se connecter" onclick="boutonConnexion()" />
+        <input type="button" id="annulerBtn" value="Annuler" />
+        <p>Vous n'avez pas de compte ? <a href="inscription.html">S'inscrire</a>
+    </form>
+    <script src="connexion.js"></script>
+</body>

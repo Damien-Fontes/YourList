@@ -1,0 +1,27 @@
+h1 {
+    text-align: center;
+    margin-bottom: 3%;
+}
+
+#connexionForm {
+    text-align: center;
+}
+
+.champs{
+    display: inline-block;
+}
+ 
+.champs input {
+    font-size: 120%;
+    width: 100%;
+    height: 50px;
+}
+
+input {
+    text-align: center;
+}
+
+#erreur {
+    color: red;
+    margin-bottom: 3%;
+}
