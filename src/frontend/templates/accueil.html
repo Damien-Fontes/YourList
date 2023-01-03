@@ -4,20 +4,20 @@
 <head>
     <title>Accueil</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <link rel="stylesheet" type= "text/css" href="{{ url_for('static',filename='/css/style.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='/css/style.css') }}" />
 </head>
 
 
 <body>
     <h1>YourList</h1>
-    <form id="rechercherVideo">
-        <div class="champs">
-            <p><input type="text" id="rechercher" placeholder="Rechercher..." /></p>
-        </div>
-        <input type="button" id="rechercherBtn" value="->" onclick="boutonRechercher()" />
-    </form>
-    <div><ol id="zone_videoThumbnail"></ol></div>
+    <div class="rechercherDiv">
+        <form id="rechercherVideo">
+            <input type="text" id="rechercher" placeholder="Rechercher..." />
+            <input type="button" id="rechercherBtn" value="->" onclick="boutonRechercher()" />
+        </form>
+    </div>
+    <div id="videoListDiv">
+        <ol id="zone_videoThumbnail"></ol>
+    </div>
     <script src="{{ url_for('static',filename='/js/accueil.js') }}"></script>
-    <!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script> -->
-    <script src="js/jquery.xdomainajax.js"></script>
 </body>

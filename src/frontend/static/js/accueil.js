@@ -8,6 +8,8 @@ function boutonRechercher() {
     // const data = require('starwars.json');
     callBackGetSuccessLocal();
 
+    
+    document.getElementById("videoListDiv").style.display = "block";
 
 
 
@@ -48,11 +50,12 @@ async function callBackGetSuccessLocal() {
             .replace(/'/g, "&apos;");
 
         code += "<li class='videoList'>"
-            + "<p><img class='thumbnail' src=\"" + element.thumbnail.static
-            + " \" onclick=clickVideo(\"" + link + "\",\"" + title + "\",\"" + views + "\")></p>"
-            + "<p>" + title + "</p>"
-            + "<p>" + views + "</p>"
-            + "<p>" + "Plateforme : Youtube" + "</p>"
+            + "<img class='thumbnail' src=\"" + element.thumbnail.static
+            + " \" onclick=clickVideo(\"" + link + "\",\"" + title + "\",\"" + views + "\")>"
+            + "<p class=\"textVideoInfo\">" + title + "</p>"
+            + "<p class=\"textVideoInfo\">" + "Youtube" + "</p>"
+            + "<p class=\"textVideoInfo\">" + views + "</p>"
+            + "<input type=\"button\" class=\"ajouterBouton\" value=\"+\" onclick=\"boutonAjouter()\"/>"
             + "</li>";
     })
     videoThumbnail.innerHTML = code;
