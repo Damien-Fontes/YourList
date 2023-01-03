@@ -26,6 +26,10 @@ def testConnexion():
 def connexion():
     return render_template('connexion.html')
 
+@app.route('/inscription/', methods=["GET","POST"])
+def inscription():
+    return render_template('inscription.html')
+
 @app.route('/video/', methods=["GET","POST"])
 def video():
     return render_template("video.html")

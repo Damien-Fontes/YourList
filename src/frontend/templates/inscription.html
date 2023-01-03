@@ -2,25 +2,27 @@
 <html>
 
 <head>
-    <title>Connexion</title>
+    <title>Inscription</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <link rel="stylesheet" type= "text/css" href="{{ url_for('static',filename='/css/style.css') }}"/>
 </head>
 
 <body>
-    <h1>Se connecter</h1>
+    <h1>S'inscrire</h1>
     <form id="connexionForm">
         <div class="champs">
             <p><input type="text" id="identifiant" placeholder="Nom d'utilisateur" /></p>
+            <p><input type="email" id="email" placeholder="Adresse email" /></p>
+            <p><input type="email" id="emailConfirm" placeholder="Confirmation adresse email" /></p>
             <p><input type="password" id="mdp" placeholder="Mot de passe" /></p>
-            <p><a href="">Mot de passe oublié</a></p>
+            <p><input type="password" id="mdpConfirm" placeholder="Confirmer le mot de passe" /></p>
         </div>
         <p id="erreur"></p>
-        <input type="button" id="connexionBtn" value="Se connecter" onclick="boutonConnexion()" />
+        <input type="button" id="inscriptionBtn" value="S'inscrire" onclick="boutonInscription()" />
         <input type="button" id="annulerBtn" value="Annuler" />
-        <p>Vous n'avez pas de compte ? <a href="/inscription">S'inscrire</a>
+        <p>Vous avez déjà un compte ? <a href="/connexion">Connexion</a>
     </form>
-    <script src="{{ url_for('static',filename='js/connexion.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/inscription.js') }}"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
     <script src="js/jquery.xdomainajax.js"></script>
 </body>
