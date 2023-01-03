@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Video</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" type= "text/css" href="{{ url_for('static',filename='/css/style.css') }}"/>
+</head>
+
+
+<body onload="getUrl()">
+    <h1>YourList</h1>
+    <form id="rechercherVideo">
+        <div class="champs">
+            <p><input type="text" id="rechercher" placeholder="Rechercher..." /></p>
+        </div>
+        <input type="button" id="rechercherBtn" value="->" onclick="boutonRechercher()" />
+    </form>
+    <div id="playerVideo"></div>
+    <script src="{{ url_for('static',filename='/js/video.js') }}"></script>
+</body>

@@ -1,16 +1,18 @@
 function boutonConnexion() {
     var identifiant = document.getElementById("identifiant").value;
     var mdp = document.getElementById("mdp").value;
-    window.location.href = 'menuPrincipal.html';
-    console.log("boutonConnexion() ending");
-
+    var err = document.getElementById("erreur");
     $.ajax({
-        type: "POST",
-        url: "~/pythoncode.py",
-        data: { param: text}
-      }).done(function( o ) {
-         // do something
-      });
+        type : "POST",
+        url: "/testConnexion",
+        data: {id : identifiant, mdp : mdp},
+        success: function(data){
+            if (data === "True")
+                window.location.href = "/accueil";
+            else
+                err.innerHTML="Mot de passe ou identifiant incorrect"
+        }
+    }); 
 }
 
 const btn = document.getElementById('annulerBtn');

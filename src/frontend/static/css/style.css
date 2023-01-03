@@ -25,3 +25,14 @@ input {
     color: red;
     margin-bottom: 3%;
 }
+
+#zone_videoThumbnail {
+    border: 1px solid;
+    border-color: black;
+    list-style-type: none;
+}
+
+#zone_videoThumbnail li{
+    border: 1px solid;
+    border-color: black;
+}
