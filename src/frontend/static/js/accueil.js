@@ -1,4 +1,8 @@
 // import myJson from 'starwars.json' assert {type: 'json'};
+function onLoad() {
+    document.getElementById("videoListSection").style.display = "none";
+}
+
 function boutonRechercher() {
     var input = document.getElementById("rechercher").value;
     var apiKey = "45ca9844fc45d3658b9a4f230f31879951769b3722ad8cf491fb3ba18dee1d66";
@@ -9,7 +13,7 @@ function boutonRechercher() {
     callBackGetSuccessLocal();
 
     
-    document.getElementById("videoListDiv").style.display = "block";
+    document.getElementById("videoListSection").style.display = "block";
 
 
 
@@ -50,12 +54,12 @@ async function callBackGetSuccessLocal() {
             .replace(/'/g, "&apos;");
 
         code += "<li class='videoList'>"
-            + "<img class='thumbnail' src=\"" + element.thumbnail.static
-            + " \" onclick=clickVideo(\"" + link + "\",\"" + title + "\",\"" + views + "\")>"
-            + "<p class=\"textVideoInfo\">" + title + "</p>"
-            + "<p class=\"textVideoInfo\">" + "Youtube" + "</p>"
-            + "<p class=\"textVideoInfo\">" + views + "</p>"
-            + "<input type=\"button\" class=\"ajouterBouton\" value=\"+\" onclick=\"boutonAjouter()\"/>"
+            + "<div class=\"videoListDiv\"><img class='thumbnail' src=\"" + element.thumbnail.static
+            + " \" onclick=clickVideo(\"" + link + "\",\"" + title + "\",\"" + views + "\")></div>"
+            + "<div class=\"videoListDiv videoListTitreDiv\"><p class=\"textVideoInfoList titreVideo\">" + title + "</p></div>"
+            + "<div class=\"videoListDiv videoListPlateformeDiv\"><p class=\"textVideoInfoList\">" + "Youtube" + "</p></div>"
+            + "<div class=\"videoListDiv videoListViewsDiv\"><p class=\"textVideoInfoList\">" + views + " vues</p></div>"
+            + "<div class=\"videoListDiv videoListBoutonDiv\"><input type=\"button\" class=\"ajouterBouton\" value=\"+\" onclick=\"boutonAjouter()\"/></div>"
             + "</li>";
     })
     videoThumbnail.innerHTML = code;

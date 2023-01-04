@@ -7,17 +7,16 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='/css/style.css') }}" />
 </head>
 
-
-<body>
+<body onload="onLoad()">
     <h1>YourList</h1>
-    <div class="rechercherDiv">
+    <section class="rechercherSection">
         <form id="rechercherVideo">
             <input type="text" id="rechercher" placeholder="Rechercher..." />
             <input type="button" id="rechercherBtn" value="->" onclick="boutonRechercher()" />
         </form>
-    </div>
-    <div id="videoListDiv">
+    </section>
+    <section id="videoListSection">
         <ol id="zone_videoThumbnail"></ol>
-    </div>
+    </section>
     <script src="{{ url_for('static',filename='/js/accueil.js') }}"></script>
 </body>

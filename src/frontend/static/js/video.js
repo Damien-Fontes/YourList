@@ -20,9 +20,9 @@ function getUrl() {
     var player = document.getElementById("playerVideo");
     code = "<iframe id=\"player\" width=\"640\" height=\"360\" src=\""+ url + "\"></iframe>"
         + "<div id=\"informationsVideo\">"
-        + "<p> " + title + "</p>"
-        + "<p> " + views + "</p>"
-        + "<p>Plateforme : Youtube </p></div>";
+        + "<p class=\"textVideoInfoEtendu\"><b> " + title + "</b> | " + views + " vues</p>"
+        + "<input type=\"button\" class=\"ajouterBouton\" value=\"+\" onclick=\"boutonAjouter()\"/>"
+        + "<p class=\"textVideoInfoEtendu\">Plateforme : Youtube </p></div>";
     console.log(code);
     player.innerHTML = code;
 }

@@ -3,13 +3,21 @@ h1 {
     margin-bottom: 3%;
 }
 
-.textVideoInfo {
+.textVideoInfoList {
     text-align: center;
     font-size: 120%;
     margin: auto;
     padding: 0 0.5% 0 0.5%;
-    border-left: 2px solid;
-    border-color: grey;
+}
+
+.textVideoInfoEtendu {
+    font-size: 120%;
+    margin: auto;
+    padding: 0 0.5% 0 0.5%;
+}
+
+.titreVideo {
+    font-weight: bold;
 }
 
 #connexionForm {
@@ -37,14 +45,14 @@ input {
     margin-bottom: 3%;
 }
 
-.rechercherDiv input {
+.rechercherSection input {
     margin: 0;
     padding: 0;
     font-size: 120%;
     height: 50px;
 }
 
-.rechercherDiv #rechercherBtn {
+.rechercherSection #rechercherBtn {
     width: 50px;
 }
 
@@ -52,8 +60,7 @@ input {
     text-align: center;
 }
 
-#videoListDiv {
-    display: none;
+#videoListSection {
     width: 85%;
     margin: 3% auto;
     padding: 0;
@@ -68,21 +75,39 @@ input {
     list-style-type: none;
 }
 
-#zone_videoThumbnail li {
+.videoList {
+    height: 150px;
     border: 2px solid;
+    border-color: grey;
+    margin: 0 0 1% 0;
+    display: flex;
+}
+
+.videoList .videoListDiv{
+    margin: 0;
+    height: 100%;
+    display: inline-flex;
+    border-left: 2px solid;
     border-color: grey;
 }
 
-.videoList {
-    margin: 0 0 1% 0;
-    display: flex;
-    height: 130px;
+.videoListTitreDiv {
+    width: 70%;
 }
 
-.videoList .ajouterBouton {
-    margin: auto 0.5% auto 0.5%;
-    padding: 0;
+.videoListPlateformeDiv {
+    width: 13%;
+}
+
+.videoListViewsDiv {
+    width: 13%;
+}
+
+.videoListBoutonDiv {
+    width: 10%;
+}
+
+.ajouterBouton {
+    margin: auto;
     font-size: 120%;
-    width: 5%;
-    height: 40%;
 }
