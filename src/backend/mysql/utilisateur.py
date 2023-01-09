@@ -1,4 +1,7 @@
-import connexion.py
+import sys
+
+sys.path.append('./src/backend/mysql')
+from connexion import *
 
 def creerCompte(password,login,nom,prenom,entreprise):
     request = (
@@ -24,5 +27,8 @@ def connexion(login,password):
             resultats = c.fetchall()
             for idL in resultats:
                 if(idL[0] == password):
-                    return "Connexion OK"
-            return "Connexion failed"
+                    return "True"
+            return "False"
+
+def testU():
+    print("testU")

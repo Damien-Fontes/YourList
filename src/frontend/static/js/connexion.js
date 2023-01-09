@@ -2,6 +2,12 @@ function boutonConnexion() {
     var identifiant = document.getElementById("identifiant").value;
     var mdp = document.getElementById("mdp").value;
     var err = document.getElementById("erreur");
+    
+    $.ajax({
+        type: "POST",
+        url: "/test"
+    });
+
     $.ajax({
         type : "POST",
         url: "/testConnexion",

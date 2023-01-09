@@ -1,16 +1,26 @@
-import mysql/utilisateur.py as user
-from flask import Flask, redirect, url_for, request
-app = Flask(__name__)
+import sys
 
+sys.path.append('./src/backend/mysql')
+from utilisateur import *
 
-def creerCompte(password,login,nom,prenom,entreprise):
-    user.creerCompte(password,login,nom,prenom,entreprise)
+# from __main__ import app
+# from flask import Flask, redirect, url_for, request
+
+# def creerCompte(password,login,nom,prenom,entreprise):
+#     user.creerCompte(password,login,nom,prenom,entreprise)
      
 
 def login(id,mdp):
-    conn = user.connexion(id,mdp)
-    return conn
+     conn = connexion(id,mdp)
+     return conn
 
-@app.route('/test',methods = ['POST'])
+# @app.route('/test', methods = ['POST'])
 def test():
+    print("test")
+    test3()
+    return "yes"
+
+def test3():
+    print("test3")
+    testU()
     return "yes"

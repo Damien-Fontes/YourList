@@ -1,6 +1,10 @@
 from flask import Flask, render_template, request
 app = Flask(__name__, template_folder='./src/frontend/templates', static_folder='./src/frontend/static')
-import src
+
+
+import sys
+sys.path.insert(0, './src/backend')
+from gestionCompte import *
 
 TEMPLATES_AUTO_RELOAD = True
 app.config["TEMPLATES_AUTO_RELOAD"] = True
@@ -17,10 +21,11 @@ def accueil():
 def testConnexion():
     id = request.form['id']
     mdp = request.form['mdp']
-    if (id=="Jean" and mdp=="test"):
-        return "True"
-    else:
-        return "False"
+    return login(id,mdp)
+    #  if (id=="Jean" and mdp=="test"):
+    #      return "True"
+    #  else:
+    #      return "False"
 
 @app.route('/connexion/', methods=["GET","POST"])
 def connexion():

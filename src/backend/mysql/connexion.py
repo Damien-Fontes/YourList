@@ -1,5 +1,4 @@
 import mysql.connector
-#import config.py
 
 
 #db = mysql.connector.connect(**connection_params)
