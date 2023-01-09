@@ -1,6 +1,6 @@
 // import myJson from 'starwars.json' assert {type: 'json'};
 function onLoad() {
-    document.getElementById("videoListDiv").style.display = "none";
+    document.getElementById("videoListSection").style.display = "none";
 }
 
 function boutonRechercher() {
@@ -13,7 +13,7 @@ function boutonRechercher() {
     callBackGetSuccessLocal();
 
     
-    document.getElementById("videoListDiv").style.display = "block";
+    document.getElementById("videoListSection").style.display = "block";
 
 
 
