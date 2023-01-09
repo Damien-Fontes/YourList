@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 app = Flask(__name__, template_folder='./src/frontend/templates', static_folder='./src/frontend/static')
-
+import src
 
 TEMPLATES_AUTO_RELOAD = True
 app.config["TEMPLATES_AUTO_RELOAD"] = True
