@@ -36,6 +36,7 @@ async function callBackGetSuccessLocal() {
     console.log(obj.video_results);
 
     var videoThumbnail = document.getElementById('zone_videoThumbnail');
+    var iPub = 0;
     obj.video_results.forEach(function (element) {
         link = element.link
         title = element.title
@@ -52,11 +53,20 @@ async function callBackGetSuccessLocal() {
         code += "<li class='videoList'>"
             + "<img class='thumbnail' src=\"" + element.thumbnail.static
             + " \" onclick=clickVideo(\"" + link + "\",\"" + title + "\",\"" + views + "\")>"
-            + "<p class=\"textVideoInfo\">" + title + "</p>"
-            + "<p class=\"textVideoInfo\">" + "Youtube" + "</p>"
-            + "<p class=\"textVideoInfo\">" + views + "</p>"
+            + "<div id=\"videoListTitleDiv\"><p class=\"textVideoInfo\">" + title + "</p></div>"
+            + "<div id=\"videoListPlateformeDiv\"><p class=\"textVideoInfo\">" + "Youtube" + "</p></div>"
+            + "<div id=\"videoListViewsDiv\"><p class=\"textVideoInfo\">" + views + "</p></div>"
             + "<input type=\"button\" class=\"ajouterBouton\" value=\"+\" onclick=\"boutonAjouter()\"/>"
             + "</li>";
+            
+            console.log("Ipub " + iPub);
+            iPub++;
+            if (iPub == 3) {
+                iPub = 0;
+                code += "<li class='videoList'>"
+                + "<div id=\"videoListPubDiv\"><p class=\"textVideoInfo\">" + "PUB" + "</p></div>"
+                + "</li>";
+            }
     })
     videoThumbnail.innerHTML = code;
 }

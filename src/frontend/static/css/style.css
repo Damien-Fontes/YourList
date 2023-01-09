@@ -8,8 +8,6 @@ h1 {
     font-size: 120%;
     margin: auto;
     padding: 0 0.5% 0 0.5%;
-    border-left: 2px solid;
-    border-color: grey;
 }
 
 #connexionForm {
@@ -79,8 +77,26 @@ input {
     height: 130px;
 }
 
+#videoListTitleDiv, #videoListPlateformeDiv, #videoListViewsDiv {
+    border-left: 1px grey solid;
+    display: inline-flex;
+}
+
+#videoListTitleDiv {
+    width: 59%;
+}
+
+#videoListPlateformeDiv {
+    width: 8%;
+}
+
+#videoListViewsDiv {
+    border-right: 1px grey solid;
+    width: 8%;
+}
+
 .videoList .ajouterBouton {
-    margin: auto 0.5% auto 0.5%;
+    margin: auto;
     padding: 0;
     font-size: 120%;
     width: 5%;
