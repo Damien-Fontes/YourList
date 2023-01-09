@@ -9,14 +9,14 @@
 
 <body onload="onLoad()">
     <h1>YourList</h1>
-    <section class="rechercherSection">
+    <div class="rechercherDiv">
         <form id="rechercherVideo">
             <input type="text" id="rechercher" placeholder="Rechercher..." />
             <input type="button" id="rechercherBtn" value="->" onclick="boutonRechercher()" />
         </form>
-    </section>
-    <section id="videoListSection">
+    </div>
+    <div id="videoList">
         <ol id="zone_videoThumbnail"></ol>
-    </section>
+    </div>
     <script src="{{ url_for('static',filename='/js/accueil.js') }}"></script>
 </body>
