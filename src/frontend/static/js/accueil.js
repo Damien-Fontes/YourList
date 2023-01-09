@@ -1,4 +1,8 @@
 // import myJson from 'starwars.json' assert {type: 'json'};
+function onLoad() {
+    document.getElementById("videoListSection").style.display = "none";
+}
+
 function boutonRechercher() {
     var input = document.getElementById("rechercher").value;
     var apiKey = "45ca9844fc45d3658b9a4f230f31879951769b3722ad8cf491fb3ba18dee1d66";
@@ -9,7 +13,7 @@ function boutonRechercher() {
     callBackGetSuccessLocal();
 
     
-    document.getElementById("videoListDiv").style.display = "block";
+    document.getElementById("videoListSection").style.display = "block";
 
 
 
