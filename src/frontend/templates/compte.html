@@ -2,25 +2,24 @@
 <html>
 
 <head>
-    <title>Playlist</title>
+    <title>Compte</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='/css/style.css') }}" />
 </head>
 
 <body onload="onLoad()">
     <p class="menuHaut" ></p>
-    <img id="logo" src="{{ url_for('static',filename='/data/logoYL.png') }}"/>
+    <h1>Compte</h1>
+    <p id="retour" onclick="allerA('accueil')">&#171; Retour</p>
     <section class="rechercherSection">
         <form id="rechercherVideo">
             <input type="text" id="rechercher" placeholder="Rechercher..." />
             <input type="button" id="rechercherBtn" value="->" onclick="boutonRechercher()" />
         </form>
     </section>
-    <h1>Mes Playlists</h1>
-    <p id="retour" onclick="allerA('accueil')">&#171; Retour</p>
     <section id="videoListSection">
         <ol id="zone_videoThumbnail"></ol>
     </section>
     <script src="{{ url_for('static',filename='/js/helper.js') }}"></script>
-    <script src="{{ url_for('static',filename='/js/playlist.js') }}"></script>
+    <script src="{{ url_for('static',filename='/js/accueil.js') }}"></script>
 </body>

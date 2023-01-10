@@ -4,7 +4,7 @@ app = Flask(__name__, template_folder='./src/frontend/templates', static_folder=
 
 import sys
 sys.path.insert(0, './src/backend')
-from gestionCompte import *
+# from gestionCompte import *
 
 TEMPLATES_AUTO_RELOAD = True
 app.config["TEMPLATES_AUTO_RELOAD"] = True
@@ -39,5 +39,13 @@ def inscription():
 def video():
     return render_template("video.html")
 
+@app.route('/playlist/')
+def playlist():
+    return render_template('playlist.html')
+
+@app.route('/compte/')
+def compte():
+    return render_template('compte.html')
+    
 if __name__ == "__main__":
     app.run(debug=True)

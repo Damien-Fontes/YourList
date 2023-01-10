@@ -7,9 +7,10 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='/css/style.css') }}" />
 </head>
 
-
 <body onload="getUrl()">
+    <p class="menuHaut" ></p>
     <h1>YourList</h1>
+    <p id="retour" onclick="allerA('accueil')">&#171; Retour</p>
     <section class="rechercherSection">
         <form id="rechercherVideo">
             <input type="text" id="rechercher" placeholder="Rechercher..." />
@@ -19,5 +20,6 @@
     <section id="videoListSection">
         <div id="playerVideo"></div>
     </section>
+    <script src="{{ url_for('static',filename='/js/helper.js') }}"></script>
     <script src="{{ url_for('static',filename='/js/video.js') }}"></script>
 </body>
