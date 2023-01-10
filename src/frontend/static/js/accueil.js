@@ -1,6 +1,6 @@
 // import myJson from 'starwars.json' assert {type: 'json'};
 function onLoad() {
-    document.getElementById("videoListSection").style.display = "none";
+    document.getElementsByClassName("mainSection")[0].style.display = "none";
 }
 
 function boutonRechercher() {
@@ -13,7 +13,7 @@ function boutonRechercher() {
     callBackGetSuccessLocal();
 
     
-    document.getElementById("videoListSection").style.display = "block";
+    document.getElementsByClassName("mainSection")[0].style.display = "block";
 
 
 
@@ -37,7 +37,6 @@ async function callBackGetSuccessLocal() {
     await fetch(url)
         .then((response) => response.json())
         .then((data) => { obj = data; });
-    console.log(obj.video_results);
 
     var videoThumbnail = document.getElementById('zone_videoThumbnail');
     var iPub = 0;
@@ -63,7 +62,6 @@ async function callBackGetSuccessLocal() {
             + "<input type=\"button\" class=\"ajouterBouton\" value=\"+\" onclick=\"boutonAjouter()\"/>"
             + "</li>";
             
-            console.log("Ipub " + iPub);
             iPub++;
             if (iPub == 3) {
                 iPub = 0;
