@@ -6,13 +6,14 @@ from utilisateur import *
 # from __main__ import app
 # from flask import Flask, redirect, url_for, request
 
-# def creerCompte(password,login,nom,prenom,entreprise):
-#     user.creerCompte(password,login,nom,prenom,entreprise)
+def creerCompte(password,login,nom,prenom,entreprise):
+    creerCompte(password,login,nom,prenom,entreprise)
+    return "true"
      
 
 def login(id,mdp):
-     conn = connexion(id,mdp)
-     return conn
+    conn = connexion(id,mdp)
+    return conn
 
 # @app.route('/test', methods = ['POST'])
 def test():

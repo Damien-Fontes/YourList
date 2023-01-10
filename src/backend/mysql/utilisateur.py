@@ -1,3 +1,4 @@
+import mysql.connector
 import sys
 
 sys.path.append('./src/backend/mysql')
