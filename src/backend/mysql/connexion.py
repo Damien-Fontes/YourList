@@ -2,10 +2,10 @@ import mysql.connector
 
 
 #db = mysql.connector.connect(**connection_params)
-db = mysql.connector.connect(host= "projet-yourlist.mysql.database.azure.com",
-    user= "yourlist_admin@projet-yourlist",
-    password= "AeHg9SG2eS6TSeC",
-    database= "yourlist")
+db = mysql.connector.connect(host= "mysql.pedaweb.univ-amu.fr",
+    user= "c17016430",
+    password= "v6D67FxS9JyVFQW",
+    database= "c17016430")
 db.close()
 
 """
