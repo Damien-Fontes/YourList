@@ -8,17 +8,26 @@
 </head>
 
 <body onload="onLoad()">
-    <p class="menuHaut" ></p>
-    <img id="logo" src="{{ url_for('static',filename='/data/logoYL.png') }}"/>
-    <section class="rechercherSection">
+    <section class="headerSection">
+        <p class="menuHaut"></p>
+        <img id="logo" src="{{ url_for('static',filename='/data/logoYL.png') }}" />
+        <h1>Mes Playlists</h1>
         <form id="rechercherVideo">
             <input type="text" id="rechercher" placeholder="Rechercher..." />
-            <input type="button" id="rechercherBtn" value="->" onclick="boutonRechercher()" />
+            <input type="button" id="rechercherBtn" onclick="boutonRechercher()" />
         </form>
     </section>
-    <h1>Mes Playlists</h1>
-    <p id="retour" onclick="allerA('accueil')">&#171; Retour</p>
-    <section id="videoListSection">
+    </form>
+    </section>
+    <section class="topMainSection">
+        <p id="retour" onclick="allerA('')">&#171; Retour</p>
+        <input type="button" id="creerPlaylistBtn" value="Créer" onclick="boutonCreerPlaylist()" />
+        <p id="zone_creationPlaylist">
+            <input type="text" id="nomPlaylist" placeholder="Nom de la playlist" />
+            <input type="button" id="creationPlaylistBtn" value="+" onclick="boutonCreationPlaylist()" />
+        </p>
+    </section>
+    <section class="mainSection">
         <ol id="zone_videoThumbnail"></ol>
     </section>
     <script src="{{ url_for('static',filename='/js/helper.js') }}"></script>

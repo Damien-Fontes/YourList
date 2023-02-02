@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='/css/style.css') }}" />
 </head>
 
-<body onload="onLoad()">
+<body onload="onLoad()" id="bodyAccueil">
     <section class="headerSection">
     <p class="menuHaut" ></p>
     <img id="logo" src="{{ url_for('static',filename='/data/logoYL.png') }}"/>
@@ -17,6 +17,7 @@
             <input type="button" id="rechercherBtn" onclick="boutonRechercher()" />
         </form>
     </section>
+    <div class="popUpListePlaylist"></div>
     <section class="mainSection">
         <ol id="zone_videoThumbnail"></ol>
     </section>

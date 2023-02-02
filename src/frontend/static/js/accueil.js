@@ -31,6 +31,7 @@ var callBackGetSuccess = function (data) {
 }
 
 async function callBackGetSuccessLocal() {
+    idAjouterBouton = 0;
     url = '../static/js/starwars.json';
     let obj, code = "";
 
@@ -59,9 +60,10 @@ async function callBackGetSuccessLocal() {
             + "<div id=\"videoListTitleDiv\"><p class=\"textVideoInfo\">" + title + "</p></div>"
             + "<div id=\"videoListPlateformeDiv\"><p class=\"textVideoInfo\">" + "Youtube" + "</p></div>"
             + "<div id=\"videoListViewsDiv\"><p class=\"textVideoInfo\">" + views + "</p></div>"
-            + "<input type=\"button\" class=\"ajouterBouton\" value=\"+\" onclick=\"boutonAjouter()\"/>"
+            + "<input type=\"button\" class=\"ajouterBouton\" id=\"boutonAjouter" + idAjouterBouton + "\" value=\"+\" onclick=\"boutonAjouter(this.id)\"/>"
             + "</li>";
             
+            idAjouterBouton++;
             iPub++;
             if (iPub == 3) {
                 iPub = 0;
