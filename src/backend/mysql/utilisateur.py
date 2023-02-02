@@ -3,6 +3,7 @@ import sys
 
 sys.path.append('./src/backend/mysql')
 from connexion import *
+from config import *
 
 def creerCompte(password,login,nom,prenom,entreprise):
     request = (

@@ -4,7 +4,7 @@ app = Flask(__name__, template_folder='./src/frontend/templates', static_folder=
 
 import sys
 sys.path.insert(0, './src/backend')
-# from gestionCompte import *
+from gestionCompte import *
 
 TEMPLATES_AUTO_RELOAD = True
 app.config["TEMPLATES_AUTO_RELOAD"] = True
