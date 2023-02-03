@@ -205,3 +205,16 @@ input {
 .zone_playlist li p {
     width: 100%;
 }
+
+#zone_modifierTitre {
+    display : none;
+}
+
+.zone_modification {
+    margin: 1.5%;
+}
+
+.zone_modification a {
+    color: blue;
+    cursor: pointer;
+}

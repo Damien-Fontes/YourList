@@ -1,3 +1,5 @@
+videos = Array();
+
 // import myJson from 'starwars.json' assert {type: 'json'};
 function onLoad() {
     document.getElementsByClassName("mainSection")[0].style.display = "none";
@@ -12,7 +14,7 @@ function boutonRechercher() {
     // const data = require('starwars.json');
     callBackGetSuccessLocal();
 
-    
+
     document.getElementsByClassName("mainSection")[0].style.display = "block";
 
 
@@ -42,6 +44,7 @@ async function callBackGetSuccessLocal() {
     var videoThumbnail = document.getElementById('zone_videoThumbnail');
     var iPub = 0;
     obj.video_results.forEach(function (element) {
+        // console.log(element);
         link = element.link
         title = element.title
         views = element.views
@@ -52,7 +55,8 @@ async function callBackGetSuccessLocal() {
             .replace(/</g, "&lt;")
             .replace(/"/g, "&quot;")
             .replace(/ /g, "&ensp;")
-            .replace(/'/g, "&apos;");
+            .replace(/'/g, "&apos;")
+            .replace(/,/g, "&#44;");
 
         code += "<li class='videoList'>"
             + "<img class='thumbnail' src=\"" + element.thumbnail.static
@@ -62,17 +66,23 @@ async function callBackGetSuccessLocal() {
             + "<div id=\"videoListViewsDiv\"><p class=\"textVideoInfo\">" + views + "</p></div>"
             + "<input type=\"button\" class=\"ajouterBouton\" id=\"boutonAjouter" + idAjouterBouton + "\" value=\"+\" onclick=\"boutonAjouter(this.id)\"/>"
             + "</li>";
-            
-            idAjouterBouton++;
-            iPub++;
-            if (iPub == 3) {
-                iPub = 0;
-                code += "<li class='videoList'>"
+
+            console.log(title);
+        video = new Video(title, link, element.length, "Youtube", element.thumbnail.static, views);
+        video.ajouterBoutonId("boutonAjouter" + idAjouterBouton);
+        videos.push(video);
+
+        idAjouterBouton++;
+        iPub++;
+        if (iPub == 3) {
+            iPub = 0;
+            code += "<li class='videoList'>"
                 + "<div id=\"videoListPubDiv\"><p class=\"textVideoInfo\">" + "PUB" + "</p></div>"
                 + "</li>";
-            }
+        }
     })
     videoThumbnail.innerHTML = code;
+    console.log(videos);
 }
 
 function clickVideo(urlVideo, titleVideo, viewsVideo) {

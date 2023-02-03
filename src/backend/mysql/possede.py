@@ -12,3 +12,13 @@ def createPossede(idU, idP):
         with db.cursor() as c:
             c.execute(request, params)
             db.commit()
+
+def verificationPossede(idU, idP):    
+    request = "SELECT * FROM possede WHERE idUtilisateur = %s AND idPlaylist = %s"
+    params = [idU, idP]
+    with mysql.connector.connect(**connection_params) as db :
+        with db.cursor() as c:
+            c.execute(request, params)
+            resultats = c.fetchall()
+            for idL in resultats:
+                return(idL)

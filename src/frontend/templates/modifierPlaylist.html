@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Playlist</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='/css/style.css') }}" />
+</head>
+
+<body onload="onLoad()">
+    <section class="headerSection">
+        <p class="menuHaut"></p>
+        <img id="logo" src="{{ url_for('static',filename='/data/logoYL.png') }}" />
+        <h1>Modification de la Playlist</h1>
+        <form id="rechercherVideo">
+            <input type="text" id="rechercher" placeholder="Rechercher..." />
+            <input type="button" id="rechercherBtn" onclick="boutonRechercher()" />
+        </form>
+    </section>
+    </form>
+    </section>
+    <section class="topMainSection">
+        <p id="retour" onclick="allerA('playlist')">&#171; Retour</p>
+        <h2 id="zone_titrePlaylist"></h2>
+        </p>
+    </section>
+    <section class="mainSection">
+        <div class="zone_modification">
+            <a id="modifierTitre" onclick="modifierTitreAffichage()">Modifier le nom de la playlist</a>
+            <p id="zone_modifierTitre">
+                <input type="text" id="titrePlaylistText" placeholder="Nouveau nom" />
+                <input type="button" id="titrePlaylistBtn" value="Modifier" onclick="modifierTitre()" />
+            </p>
+        </div>
+        <ol id="zone_videoThumbnail"></ol>
+    </section>
+    <script src="{{ url_for('static',filename='/js/helper.js') }}"></script>
+    <script src="{{ url_for('static',filename='/js/modifierPlaylist.js') }}"></script>
+</body>
