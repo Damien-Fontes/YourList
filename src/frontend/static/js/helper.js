@@ -1,3 +1,12 @@
+class Profil {
+    constructor(login, nom, prenom, email) {
+        this.login = login;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+    }
+}
+
 class Playlist {
     constructor(id, titre, createur) {
         this.id = id;
@@ -19,16 +28,29 @@ class Video {
     ajouterId(id) {
         this.id = id;
     }
-    
+
     ajouterBoutonId(boutonID) {
         this.boutonID = boutonID;
     }
 }
 
-menuHautStr = "<a onclick=\"playlists()\">Playlists</a> | "
-    + "<a onclick=\"compte()\">Compte</a> | "
-    + "<a onclick=\"seDeconnecter()\">Se Déconnecter</a> ";
-document.getElementsByClassName("menuHaut")[0].innerHTML = menuHautStr;
+
+$.ajax({
+    type: "POST",
+    url: "/isConnected",
+    success: function (data) {
+        if (data == "true")
+            menuHautStr = "<a class=\"hrefLink\" onclick=\"playlists()\">Playlists</a> | "
+                + "<a class=\"hrefLink\" onclick=\"compte()\">Compte</a> | "
+                + "<a class=\"hrefLink\" onclick=\"seDeconnecter()\">Se Déconnecter</a> ";
+        else
+            menuHautStr = "<a class=\"hrefLink\" onclick=\"allerA('')\">Accueil</a> | "
+                + "<a class=\"hrefLink\" onclick=\"seDeconnecter()\">Se Connecter</a> | "
+                + "<a class=\"hrefLink\" onclick=\"inscrire()\">S'inscrire</a> ";
+    
+        document.getElementsByClassName("menuHaut")[0].innerHTML = menuHautStr;
+    }
+});
 
 //id utilisateur
 const idString = localStorage.getItem('id');
@@ -43,15 +65,43 @@ function allerA(fichier) {
 }
 
 function playlists() {
-    window.location.href = "/playlist";
+    $.ajax({
+        type: "POST",
+        url: "/playlist",
+        success: function (data) {    
+            window.location.href = "/playlist";
+        }
+    });
 }
 
 function compte() {
-    window.location.href = "/compte";
+    $.ajax({
+        type: "POST",
+        url: "/compte",
+        success: function (data) {    
+            window.location.href = "/compte";
+        }
+    });
 }
 
 function seDeconnecter() {
-    window.location.href = "/connexion";
+    $.ajax({
+        type: "POST",
+        url: "/connexion",
+        success: function (data) {    
+            window.location.href = "/connexion";
+        }
+    });
+}
+
+function inscrire() {
+    $.ajax({
+        type: "POST",
+        url: "/inscription",
+        success: function (data) {    
+            window.location.href = "/inscription";
+        }
+    });
 }
 
 function boutonAjouter(idBouton) {
@@ -95,7 +145,7 @@ function ajouterVideo(idPlaylist, idBouton) {
             $.ajax({
                 type: "POST",
                 url: "/addVideoPlaylist",
-                data: { id: id, idPlaylist: idPlaylist, titre: video.titre, lien: video.lien, duree: video.duree, site: video.site, thumbnail:video.thumbnail, vues:video.vues },
+                data: { id: id, idPlaylist: idPlaylist, titre: video.titre, lien: video.lien, duree: video.duree, site: video.site, thumbnail: video.thumbnail, vues: video.vues },
                 success: function (data) {
                     console.log(data);
                     if (data == "alreadyExist")

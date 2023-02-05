@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Accueil</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='/css/style.css') }}" />
+</head>
+
+<body id="bodyAccueil">
+    <section class="headerSection">
+        <p class="menuHaut"></p>
+        <img id="logo" src="{{ url_for('static',filename='/data/logoYL.png') }}" />
+        <h1>YourList | Entreprise</h1>
+    </section>
+    <section class="mainSection">
+        <form id="connexionForm" action="http://localhost:5000/uploaderEntreprise/" method = "POST" enctype = "multipart/form-data">
+            <div class="champs">
+                <!-- <p><input type="text" id="titrePub" placeholder="Titre" /></p> -->
+                <p><input type="file" name="file"/></p>
+                <!-- <p>Moyen de paiement</p> -->
+                <input type="submit" id="creerBtn" value="Créer" />
+            </div>
+        </form>
+    </section>
+    <script src="{{ url_for('static',filename='/js/entreprise/helperEntreprise.js') }}"></script>
+    <script src="{{ url_for('static',filename='/js/entreprise/accueilEntreprise.js') }}"></script>
+</body>

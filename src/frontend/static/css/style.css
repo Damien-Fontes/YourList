@@ -3,7 +3,15 @@
     text-align: right;
 }
 
-.menuHaut a,
+.headerSection h1{
+    font-size: 210%;
+}
+
+.hrefLink {
+    color: blue;
+    cursor: pointer;
+}
+
 #retour {
     cursor: pointer;
 }
@@ -85,6 +93,7 @@ input {
 }
 
 .mainSection {
+    padding: 1.5%;
     display: block;
     margin: 30px 5%;
     border: solid 2px gray;
@@ -101,7 +110,7 @@ input {
 }
 
 #zone_videoThumbnail {
-    margin: 1.5%;
+    margin: 0;
     padding: 0;
     list-style-type: none;
 }
@@ -207,14 +216,86 @@ input {
 }
 
 #zone_modifierTitre {
-    display : none;
+    display: none;
 }
 
-.zone_modification {
-    margin: 1.5%;
+#modificationCompte {
+    display: none;
 }
 
-.zone_modification a {
-    color: blue;
-    cursor: pointer;
+#modificationForm {
+    padding: 1.5%;
+    border: solid 2px gray;
+    border-radius: 26px;
+    width: auto;
 }
+
+
+#modificationForm p {
+    margin-top: 5px;
+}
+
+#modificationForm input {
+    font-size: 110%;
+    width: auto;
+    height: 40px;
+}
+
+#validerBtnCompte {
+    margin-left: 30px;
+    margin-right: 10px;
+}
+
+.topMainSection input {
+    font-size: 110%;
+    width: auto;
+    height: 40px;
+}
+
+#partieGaucheVideo {
+    float: left;
+    width: 65%;
+    height: 100%;
+    margin-right: 10px;
+}
+
+#suggestionVideo {
+    padding-left: 10px;
+    display: flow-root;
+}
+
+#suggestionVideo .videoList{
+    border: solid 2px gray;
+    list-style: none;
+    display:block;
+}
+
+#suggestionVideo .thumbnail{
+    float:left;
+    width: 231.69px;
+    height: 130px;
+}
+
+#suggestionVideo .textVideoInfo{    
+    text-align: left;
+    display: -webkit-box;
+    max-width: 200px;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.suggestionDiv {
+    display: flow-root;
+    height: 100%;
+}
+
+#player {
+    width:100%;
+}
+
+#drop_zone {
+    border: 5px solid blue;
+    width: 200px;
+    height: 100px;
+  }

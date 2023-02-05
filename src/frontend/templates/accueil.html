@@ -9,12 +9,12 @@
 
 <body onload="onLoad()" id="bodyAccueil">
     <section class="headerSection">
-    <p class="menuHaut" ></p>
-    <img id="logo" src="{{ url_for('static',filename='/data/logoYL.png') }}"/>
-    <h1>YourList</h1>
+        <p class="menuHaut"></p>
+        <img id="logo" src="{{ url_for('static',filename='/data/logoYL.png') }}" />
+        <h1>YourList</h1>
         <form id="rechercherVideo">
             <input type="text" id="rechercher" placeholder="Rechercher..." />
-            <input type="button" id="rechercherBtn" onclick="boutonRechercher()" />
+            <input type="button" id="rechercherBtn" value=" " onclick="boutonRechercher()" />
         </form>
     </section>
     <div class="popUpListePlaylist"></div>

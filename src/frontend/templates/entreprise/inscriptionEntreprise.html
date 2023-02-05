@@ -10,24 +10,21 @@
 <body>
     <section class="headerSection">
         <p class="menuHaut"></p>
-        <h1>S'inscrire</h1>
+        <h1>S'inscrire | Entreprise</h1>
     </section>
     <form id="connexionForm">
         <div class="champs">
             <p><input type="text" id="login" placeholder="Nom d'utilisateur" /></p>
             <p><input type="password" id="mdp" placeholder="Mot de passe" /></p>
             <p><input type="password" id="mdpConfirm" placeholder="Confirmer le mot de passe" /></p>
-            <p><input type="text" id="nom" placeholder="Nom" /></p>
-            <p><input type="text" id="prenom" placeholder="Prénom" /></p>
-            <p><input type="email" id="email" placeholder="Adresse email" /></p>
+            <p><input type="text" id="entreprise" placeholder="Nom de l'entreprise" /></p>
+            <p><input type="email" id="email" placeholder="Adresse email de l'entreprise" /></p>
         </div>
         <p id="erreur"></p>
         <input type="button" id="inscriptionBtn" value="S'inscrire" onclick="boutonInscription()"/>
-        <input type="button" id="annulerBtn" value="Annuler" onclick="allerA('')"/>
-        <p>Vous avez déjà un compte ? <a href="/connexion">Connexion</a>
+        <input type="button" id="annulerBtn" value="Annuler"/>
+        <p>Vous avez déjà un compte ? <a class="hrefLink" onclick="seDeconnecter()">Connexion</a>
     </form>
-    <script src="{{ url_for('static',filename='js/helper.js') }}"></script>
-    <script src="{{ url_for('static',filename='js/inscription.js') }}"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
-    <script src="js/jquery.xdomainajax.js"></script>
+    <script src="{{ url_for('static',filename='js/entreprise/helperEntreprise.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/entreprise/inscriptionEntreprise.js') }}"></script>
 </body>

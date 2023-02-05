@@ -2,24 +2,45 @@
 <html>
 
 <head>
-    <title>Compte</title>
+    <title>Playlist</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='/css/style.css') }}" />
 </head>
 
 <body onload="onLoad()">
-    <p class="menuHaut" ></p>
-    <h1>Compte</h1>
-    <p id="retour" onclick="allerA('accueil')">&#171; Retour</p>
-    <section class="rechercherSection">
+    <section class="headerSection">
+        <p class="menuHaut"></p>
+        <img id="logo" src="{{ url_for('static',filename='/data/logoYL.png') }}" />
+        <h1>Mes Playlists</h1>
         <form id="rechercherVideo">
             <input type="text" id="rechercher" placeholder="Rechercher..." />
-            <input type="button" id="rechercherBtn" value="->" onclick="boutonRechercher()" />
+            <input type="button" id="rechercherBtn"  value=" " onclick="boutonRechercher()" />
         </form>
     </section>
-    <section id="videoListSection">
-        <ol id="zone_videoThumbnail"></ol>
+    </form>
+    </section>
+    <section class="topMainSection">
+        <p id="retour" onclick="allerA('')">&#171; Retour</p>
+    </section>
+    <section class="mainSection">
+        <div id="informationsCompte">
+            <p id="zone_login">Login : </p>
+            <p id="zone_Nom">Nom : </p>
+            <p id="zone_Prenom">Prénom : </p>
+            <p id="zone_Email">Email : </p>
+            <a class="hrefLink" id="modifierCompte" onclick="modifierCompte()">Modifier vos informations</a>
+        </div>
+        <div id="modificationCompte">
+            <form id="modificationForm">
+                Login : <p><input type="text" id="champs_Login" /></p>
+                Nom : <p><input type="text" id="champs_Nom" /></p>
+                Prénom : <p><input type="text" id="champs_Prenom" /></p>
+                Email : <p><input type="email" id="champs_Email" /></p>
+                <input type="button" id="validerBtnCompte" value="Valider" onclick="validerModifications()" />
+                <input type="button" id="annulerBtnCompte" value="Annuler" onclick="compte()" />
+            </form>
+        </div>
     </section>
     <script src="{{ url_for('static',filename='/js/helper.js') }}"></script>
-    <script src="{{ url_for('static',filename='/js/accueil.js') }}"></script>
+    <script src="{{ url_for('static',filename='/js/compte.js') }}"></script>
 </body>

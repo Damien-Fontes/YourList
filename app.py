@@ -1,5 +1,8 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, make_response
+from werkzeug.utils import secure_filename
+from werkzeug.datastructures import  FileStorage
 import jsonpickle
+import hashlib
 app = Flask(__name__, template_folder='./src/frontend/templates', static_folder='./src/frontend/static')
 
 
@@ -20,22 +23,86 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 def index():
     return render_template('accueil.html')
 
+@app.route('/cookieConnected/', methods=["POST"])
+def cookieConnected():
+    resp = make_response('ok')
+    resp.set_cookie('connected','true')
+    return resp
+
 @app.route('/testConnexion/', methods=["POST"])
 def testConnexion():
     id = request.form['id']
     mdp = request.form['mdp']
+    mdp = hashlib.sha256(mdp.encode('utf-8')).hexdigest()
     return login(id,mdp)
-    #  if (id=="Jean" and mdp=="test"):
-    #      return "True"
-    #  else:
-    #      return "False"
 
+@app.route('/testConnexionEntreprise/', methods=["POST"])
+def testConnexionEntreprise():
+    login = request.form['login']
+    mdp = request.form['mdp']
+    mdp = hashlib.sha256(mdp.encode('utf-8')).hexdigest()
+    return loginEntreprise(login,mdp)
+
+@app.route('/isConnected/', methods=["POST"])
+def isConnected():
+    if(request.cookies.get('connected') == "true"):
+        resp = make_response("true")
+    else:
+        resp = make_response("false")
+    return resp
+
+@app.route('/createUser/', methods=["POST"])
+def createUser():
+    login = request.form['login']
+    mdp = request.form['mdp']
+    mdpConfirm = request.form['mdpConfirm']
+    nom = request.form['nom']
+    prenom = request.form['prenom']
+    email = request.form['email']
+    if (mdp == mdpConfirm):
+        if (getUserByLogin() == "null"):
+            mdp = hashlib.sha256(mdp.encode('utf-8')).hexdigest()
+            creerCompte(login, mdp, nom, prenom ,email)
+            return "ok"
+        else:
+            return "Login déjà existant."
+    else:
+        return "Mot de passe différent."
+
+@app.route('/createUserEntreprise/', methods=["POST"])
+def createUserEntreprise():
+    login = request.form['login']
+    mdp = request.form['mdp']
+    mdpConfirm = request.form['mdpConfirm']
+    entreprise = request.form['entreprise']
+    email = request.form['email']
+    if (mdp == mdpConfirm):
+        if (getUserByLogin() == "null"):
+            mdp = hashlib.sha256(mdp.encode('utf-8')).hexdigest()
+            creerCompteEntreprise(login, mdp, entreprise, email)
+            return "ok"
+        else:
+            return "Login déjà existant."
+    else:
+        return "Mot de passe différent."
 
 @app.route('/getUserByLogin/', methods=["POST"])
 def getUserByLogin():
     login = request.form['login']
     liste = getUtilisateurByLoginSQL(login)
     return jsonpickle.encode(liste)
+
+@app.route('/getUserById/', methods=["POST"])
+def getUserById():
+    res = []
+    id = request.form['id']
+    user = getUtilisateurByIdSQL(id)
+    if(user == None):
+        return "Erreur"
+    else:
+        for i in range(len(user)):
+            res.append(user[i])
+    return (res)
 
 @app.route('/getPlaylist/', methods=["POST"])
 def getPlaylist():
@@ -79,7 +146,6 @@ def addVideoPlaylist():
         return "ok"
     else:
         return "alreadyExist"
-    return "ok"
 
 @app.route('/verifPossede/', methods=["POST"])
 def verifPossede():
@@ -133,13 +199,36 @@ def modifierTitrePlaylist():
     modifierTitrePlaylistById(idPlaylist, titre)
     return "ok"
 
+@app.route('/updateUser/', methods=["POST"])
+def updateUser():
+    id = request.form['id']
+    login = request.form['login']
+    nom = request.form['nom']
+    prenom = request.form['prenom']
+    email = request.form['email']
+    modifierUser(id, login, nom, prenom, email)
+    return "ok"
+	
+@app.route('/uploaderEntreprise/', methods = ['GET', 'POST'])
+def uploaderEntreprise():
+    if request.method == 'POST':
+        f = request.files['file']
+        f.save(secure_filename(f.filename))
+        f.save('./src/frontend/static/data/pub')
+        return render_template("entreprise/uploaderEntreprise.html")
+
 @app.route('/connexion/', methods=["GET","POST"])
 def connexion():
-    return render_template('connexion.html')
+    resp = make_response(render_template('connexion.html'))
+    resp.set_cookie('connected','false')
+    return resp
 
 @app.route('/inscription/', methods=["GET","POST"])
 def inscription():
-    return render_template('inscription.html')
+    resp = make_response(render_template('inscription.html'))
+    resp.set_cookie('connected','false')
+    resp.set_cookie('admin','false')
+    return resp
 
 @app.route('/video/', methods=["GET","POST"])
 def video():
@@ -147,15 +236,47 @@ def video():
 
 @app.route('/playlist/', methods=["GET","POST"])
 def playlist():
-    return render_template('playlist.html')
+    if(request.cookies.get('connected') == "true"):
+        resp = make_response(render_template('playlist.html'))
+    else:
+        resp = make_response(render_template("accueil.html"))
+    return resp
 
 @app.route('/compte/', methods=["GET","POST"])
 def compte():
-    return render_template('compte.html')
+    if(request.cookies.get('connected') == "true"):
+        resp = make_response(render_template('compte.html'))
+    else:
+        resp = make_response(render_template("accueil.html"))
+    return resp
     
 @app.route('/modifierPlaylist/', methods=["GET","POST"])
 def modifierPlaylist():
-    return render_template('modifierPlaylist.html')
+    if(request.cookies.get('connected') == "true"):
+        resp = make_response(render_template('modifierPlaylist.html'))
+    else:
+        resp = make_response(render_template("accueil.html"))
+    return resp    
+
+@app.route('/connexionEntreprise/', methods=["GET","POST"])
+def connexionEntreprise():
+    resp = make_response(render_template('entreprise/connexionEntreprise.html'))
+    resp.set_cookie('connected','false')
+    return resp
+
+@app.route('/inscriptionEntreprise/', methods=["GET","POST"])
+def inscriptionEntreprise():
+    resp = make_response(render_template('entreprise/inscriptionEntreprise.html'))
+    resp.set_cookie('connected','false')
+    return resp
+    
+@app.route('/accueilEntreprise/', methods=["GET","POST"])
+def accueilEntreprise():
+    if(request.cookies.get('connected') == "true"):
+        resp = make_response(render_template('entreprise/accueilEntreprise.html'))
+    else:
+        resp = make_response(render_template("entreprise/connexionEntreprise.html"))
+    return resp    
     
 if __name__ == "__main__":
     app.run(debug=True)

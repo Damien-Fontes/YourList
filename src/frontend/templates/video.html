@@ -7,18 +7,24 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='/css/style.css') }}" />
 </head>
 
-<body onload="getUrl()">
-    <p class="menuHaut" ></p>
-    <h1>YourList</h1>
-    <p id="retour" onclick="allerA('accueil')">&#171; Retour</p>
-    <section class="rechercherSection">
+<body onload="onLoad()">
+    <section class="headerSection">
+        <p class="menuHaut"></p>
+        <h1>YourList</h1>
         <form id="rechercherVideo">
             <input type="text" id="rechercher" placeholder="Rechercher..." />
-            <input type="button" id="rechercherBtn" value="->" onclick="boutonRechercher()" />
+            <input type="button" id="rechercherBtn"  value=" " onclick="boutonRechercher()" />
         </form>
     </section>
-    <section id="videoListSection">
-        <div id="playerVideo"></div>
+    <section class="topMainSection">
+        <p id="retour" onclick="allerA('')">&#171; Retour</p>
+    </section>
+    <section class="mainSection">
+        <div id="partieGaucheVideo">
+            <div id="playerVideo"></div>
+            <div id="suitePlaylist"></div>
+        </div>
+        <div id="suggestionVideo"></div>
     </section>
     <script src="{{ url_for('static',filename='/js/helper.js') }}"></script>
     <script src="{{ url_for('static',filename='/js/video.js') }}"></script>

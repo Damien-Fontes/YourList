@@ -14,14 +14,7 @@ def creerCompte(password,login,nom,prenom,entreprise):
 def login(id,mdp):
     conn = connexion(id,mdp)
     return conn
-
-# @app.route('/test', methods = ['POST'])
-def test():
-    print("test")
-    test3()
-    return "yes"
-
-def test3():
-    print("test3")
-    testU()
-    return "yes"
+    
+def loginEntreprise(id,mdp):
+    conn = connexionEntreprise(id,mdp)
+    return conn

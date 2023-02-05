@@ -67,7 +67,6 @@ async function callBackGetSuccessLocal() {
             + "<input type=\"button\" class=\"ajouterBouton\" id=\"boutonAjouter" + idAjouterBouton + "\" value=\"+\" onclick=\"boutonAjouter(this.id)\"/>"
             + "</li>";
 
-            console.log(title);
         video = new Video(title, link, element.length, "Youtube", element.thumbnail.static, views);
         video.ajouterBoutonId("boutonAjouter" + idAjouterBouton);
         videos.push(video);

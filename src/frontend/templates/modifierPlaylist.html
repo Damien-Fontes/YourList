@@ -14,7 +14,7 @@
         <h1>Modification de la Playlist</h1>
         <form id="rechercherVideo">
             <input type="text" id="rechercher" placeholder="Rechercher..." />
-            <input type="button" id="rechercherBtn" onclick="boutonRechercher()" />
+            <input type="button" id="rechercherBtn"  value=" " onclick="boutonRechercher()" />
         </form>
     </section>
     </form>
@@ -26,7 +26,7 @@
     </section>
     <section class="mainSection">
         <div class="zone_modification">
-            <a id="modifierTitre" onclick="modifierTitreAffichage()">Modifier le nom de la playlist</a>
+            <a class="hrefLink" id="modifierTitre" onclick="modifierTitreAffichage()">Modifier le nom de la playlist</a>
             <p id="zone_modifierTitre">
                 <input type="text" id="titrePlaylistText" placeholder="Nouveau nom" />
                 <input type="button" id="titrePlaylistBtn" value="Modifier" onclick="modifierTitre()" />

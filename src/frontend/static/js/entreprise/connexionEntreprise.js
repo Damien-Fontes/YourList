@@ -1,26 +1,26 @@
 function boutonConnexion() {
-    var identifiant = document.getElementById("identifiant").value;
+    var login = document.getElementById("login").value;
     var mdp = document.getElementById("mdp").value;
     var err = document.getElementById("erreur");
 
     $.ajax({
         type: "POST",
-        url: "/testConnexion",
-        data: { id: identifiant, mdp: mdp },
+        url: "/testConnexionEntreprise",
+        data: { login: login, mdp: mdp },
         success: function (data) {
             if (data === "True")
-                storageID(identifiant);
+                storageID(login);
             else
                 err.innerHTML = "Mot de passe ou identifiant incorrect"
         }
     });
 }
 
-function storageID(identifiant) {
+function storageID(login) {
     $.ajax({
         type: "POST",
         url: "/getUserByLogin",
-        data: { login: identifiant },
+        data: { login: login },
         success: function (data) {
             res = JSON.parse(data);
             const idObj = { id: res["py/tuple"][0] };
@@ -38,7 +38,7 @@ function cookieConnected() {
         url: "/cookieConnected",
         success: function (data) {
             if (data == "ok")
-                window.location.href = "/";
+                window.location.href = "/accueilEntreprise";
         }
     });
 }
@@ -46,9 +46,6 @@ function cookieConnected() {
 const btn = document.getElementById('annulerBtn');
 
 btn.addEventListener('click', function handleClick(event) {
-    var identifiant = document.getElementById("identifiant");
-    var mdp = document.getElementById('mdp');
-    identifiant.value = '';
-    mdp.value = '';
+    document.getElementById("login").value = '';
+    document.getElementById("mdp").value = '';
 });
-

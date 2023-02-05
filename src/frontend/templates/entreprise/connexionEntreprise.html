@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Connexion</title>
+    <title>Connexion en tant qu'Entreprise</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='/css/style.css') }}" />
 </head>
@@ -10,21 +10,19 @@
 <body>
     <section class="headerSection">
         <p class="menuHaut"></p>
-        <h1>Se connecter</h1>
+        <h1>Se connecter | Entreprise</h1>
     </section>
     <form id="connexionForm">
         <div class="champs">
-            <p><input type="text" id="identifiant" placeholder="Nom d'utilisateur" /></p>
+            <p><input type="text" id="login" placeholder="Nom d'utilisateur" /></p>
             <p><input type="password" id="mdp" placeholder="Mot de passe" /></p>
             <p><a href="">Mot de passe oublié</a></p>
         </div>
         <p id="erreur"></p>
         <input type="button" id="connexionBtn" value="Se connecter" onclick="boutonConnexion()" />
-        <input type="button" id="retourBtn" value="Retour" onclick="allerA('')" />
-        <p>Vous n'avez pas de compte ? <a href="/inscription">S'inscrire</a>
+        <input type="button" id="annulerBtn" value="Annuler"/>
+        <p>Vous n'avez pas de compte ? <a class="hrefLink" onclick="inscrire()">S'inscrire</a>
     </form>
-    <script src="{{ url_for('static',filename='js/helper.js') }}"></script>
-    <script src="{{ url_for('static',filename='js/connexion.js') }}"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
-    <script src="js/jquery.xdomainajax.js"></script>
+    <script src="{{ url_for('static',filename='js/entreprise/helperEntreprise.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/entreprise/connexionEntreprise.js') }}"></script>
 </body>
