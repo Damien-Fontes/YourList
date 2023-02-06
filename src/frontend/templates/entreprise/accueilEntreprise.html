@@ -14,11 +14,13 @@
         <h1>YourList | Entreprise</h1>
     </section>
     <section class="mainSection">
-        <form id="connexionForm" action="http://localhost:5000/uploaderEntreprise/" method = "POST" enctype = "multipart/form-data">
+        <h2>Ajouter une Pub LeaderBoard (728x90)</h2>
+        <form name="connexionForm" id="connexionForm" action="http://localhost:5000/uploaderEntreprise/" method = "POST" enctype = "multipart/form-data">
             <div class="champs">
-                <!-- <p><input type="text" id="titrePub" placeholder="Titre" /></p> -->
-                <p><input type="file" name="file"/></p>
-                <!-- <p>Moyen de paiement</p> -->
+                <p><input type="text" name="titrePub" placeholder="Titre" required/></p>
+                <p><input type="text" name="idUser" id="idUserDisplayNone" required/></p>
+                <p><input type="file" name="file" accept="image/png, image/jpeg" /></p>
+                <p>Moyen de paiement</p>
                 <input type="submit" id="creerBtn" value="Créer" />
             </div>
         </form>

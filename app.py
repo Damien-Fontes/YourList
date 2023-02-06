@@ -3,6 +3,7 @@ from werkzeug.utils import secure_filename
 from werkzeug.datastructures import  FileStorage
 import jsonpickle
 import hashlib
+import pathlib
 app = Flask(__name__, template_folder='./src/frontend/templates', static_folder='./src/frontend/static')
 
 
@@ -15,6 +16,7 @@ from utilisateur import *
 from possede import *
 from video import *
 from contient import *
+from pub import *
 
 TEMPLATES_AUTO_RELOAD = True
 app.config["TEMPLATES_AUTO_RELOAD"] = True
@@ -187,8 +189,6 @@ def supprimerVideoPlaylist():
     if(getVideoById(idVideo) == None):
         return "Video déjà supprimée"
     else:
-        print(idVideo)
-        print(idPlaylist)
         supprimerContient(idVideo, idPlaylist)
     return "ok"
   
@@ -212,10 +212,47 @@ def updateUser():
 @app.route('/uploaderEntreprise/', methods = ['GET', 'POST'])
 def uploaderEntreprise():
     if request.method == 'POST':
+        nom = request.form["titrePub"]
+        idU = request.form["idUser"]
         f = request.files['file']
-        f.save(secure_filename(f.filename))
-        f.save('./src/frontend/static/data/pub')
+        creerPubSQL(nom, "NULL", pathlib.Path(f.filename).suffix, idU)
+        id = getMaxIdPub()[0]
+        path = "./src/frontend/static/data/pub/" + str(id) + pathlib.Path(f.filename).suffix
+        f.save(path)
         return render_template("entreprise/uploaderEntreprise.html")
+	
+@app.route('/getPubByIdUtilisateur/', methods = ['GET', 'POST'])
+def getPubByIdUtilisateur():
+    if request.method == 'POST':
+        res=[]
+        id = request.form["id"]
+        pubs = getPubByIdUtilisateurSQL(id)
+        i=0
+        for pub in pubs:
+            res.append([])
+            res[i].append(pub[0])
+            res[i].append(pub[1])
+            res[i].append(pub[2])
+            res[i].append(pub[3])
+            res[i].append(pub[4])
+            res[i].append(pub[5])
+            i=i+1
+        return res
+	
+@app.route('/getPubByIdUIdP/', methods = ['GET', 'POST'])
+def getPubByIdUIdP():
+    if request.method == 'POST':
+        res=[]
+        idU = request.form["id"]
+        idP = request.form["idPub"]
+        pub = getPubByIdUIdPSQL(idU,idP)
+        res.append(pub[0])
+        res.append(pub[1])
+        res.append(pub[2])
+        res.append(pub[3])
+        res.append(pub[4])
+        res.append(pub[5])
+        return res
 
 @app.route('/connexion/', methods=["GET","POST"])
 def connexion():
@@ -276,7 +313,23 @@ def accueilEntreprise():
         resp = make_response(render_template('entreprise/accueilEntreprise.html'))
     else:
         resp = make_response(render_template("entreprise/connexionEntreprise.html"))
+    return resp   
+        
+@app.route('/compteEntreprise/', methods=["GET","POST"])
+def compteEntreprise():
+    if(request.cookies.get('connected') == "true"):
+        resp = make_response(render_template('entreprise/compteEntreprise.html'))
+    else:
+        resp = make_response(render_template("entreprise/connexionEntreprise.html"))
     return resp    
     
+@app.route('/pubEntreprise/', methods=["GET","POST"])
+def pubEntreprise():
+    if(request.cookies.get('connected') == "true"):
+        resp = make_response(render_template('entreprise/pubEntreprise.html'))
+    else:
+        resp = make_response(render_template("entreprise/connexionEntreprise.html"))
+    return resp    
+
 if __name__ == "__main__":
     app.run(debug=True)

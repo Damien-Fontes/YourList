@@ -298,4 +298,26 @@ input {
     border: 5px solid blue;
     width: 200px;
     height: 100px;
-  }
+}
+
+#idUserDisplayNone {
+    display: none;
+}
+
+#informationsCompte {
+    margin-bottom: 30px;
+}
+
+#zone_pubCompte {
+    border-top: solid 2px gray;
+    padding-top: 30px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.pubImgClass {
+    border: solid 2px gray;
+    margin-top: 10px;
+    width: 728px;
+    height: 90px;
+}

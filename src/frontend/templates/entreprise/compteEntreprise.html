@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Compte</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='/css/style.css') }}" />
+</head>
+
+<body onload="onLoad()">
+    <section class="headerSection">
+        <p class="menuHaut"></p>
+        <img id="logo" src="{{ url_for('static',filename='/data/logoYL.png') }}" />
+        <h1>Mon compte | Entreprise</h1>
+    </section>
+    <section class="topMainSection">
+        <p id="retour" onclick="accueilEntreprise()">&#171; Retour</p>
+    </section>
+    <section class="mainSection">
+        <div id="informationsCompte">
+            <p id="zone_login">Login : </p>
+            <p id="zone_entreprise">Entreprise: </p>
+            <p id="zone_email">Email : </p>
+        </div>
+        <div id="zone_pubCompte"><div>
+    </section>
+    <script src="{{ url_for('static',filename='/js/entreprise/helperEntreprise.js') }}"></script>
+    <script src="{{ url_for('static',filename='/js/entreprise/compteEntreprise.js') }}"></script>
+</body>
