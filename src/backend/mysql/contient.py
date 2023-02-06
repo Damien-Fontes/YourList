@@ -13,15 +13,6 @@ def createContient(idV, idP):
             c.execute(request, params)
             db.commit()
 
-def supprimerContient(idV, idP):
-    request = ("DELETE FROM contient WHERE idVideo=%s AND idPlaylist=%s")
-    params = [idV, idP]
-
-    with mysql.connector.connect(**connection_params) as db :
-        with db.cursor() as c:
-            c.execute(request, params)
-            db.commit()
-
 def getContient(idV, idP):
     request = (
         "SELECT * FROM contient WHERE idVideo=%s AND idPlaylist=%s")
@@ -33,7 +24,17 @@ def getContient(idV, idP):
             resultats = c.fetchall()
             for idU in resultats:
                 return(idU)
-                
+          
+def getContientPlaylistByIdP(idP):
+    request = ("SELECT * FROM contient WHERE idPlaylist=%s")
+    params = [idP]
+
+    with mysql.connector.connect(**connection_params) as db :
+        with db.cursor() as c:
+            c.execute(request, params)
+            resultats = c.fetchall()
+            return(resultats)
+
 def nbVideosPlaylist(idPlaylist):
     request = "SELECT COUNT(*) FROM contient WHERE idPlaylist = %s"
     params = [idPlaylist]
@@ -52,3 +53,13 @@ def getVideoByPlaylist(idPlaylist):
             c.execute(request, params)
             resultats = c.fetchall()
             return resultats
+
+def supprimerContient(idV, idP):
+    request = ("DELETE FROM contient WHERE idVideo=%s AND idPlaylist=%s")
+    params = [idV, idP]
+
+    with mysql.connector.connect(**connection_params) as db :
+        with db.cursor() as c:
+            c.execute(request, params)
+            db.commit()
+            

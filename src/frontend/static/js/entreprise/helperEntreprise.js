@@ -8,7 +8,7 @@ class Profil {
 
 $.ajax({
     type: "POST",
-    url: "/isConnected",
+    url: "/isConnectedEntreprise",
     success: function (data) {
         if (data == "true") {
             menuHautStr = "<a class=\"hrefLink\" onclick=\"accueilEntreprise()\">Accueil</a> | "
@@ -16,6 +16,8 @@ $.ajax({
                 + "<a class=\"hrefLink\" onclick=\"seDeconnecter()\">Se Déconnecter</a> ";
             document.getElementsByClassName("menuHaut")[0].innerHTML = menuHautStr;
         }
+        else 
+            seDeconnecter();
     }
 });
 

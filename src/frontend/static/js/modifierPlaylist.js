@@ -6,8 +6,6 @@ function onLoad() {
     const idPlaylistObj = JSON.parse(idPlaylistString);
 
     idPlaylist = idPlaylistObj.idPlaylist;
-    console.log(idPlaylist);
-
 
     $.ajax({
         type: "POST",
@@ -22,7 +20,7 @@ function onLoad() {
     });
 }
 
-function getPlaylistById() {
+function getPlaylistById(idPlaylist) {
     $.ajax({
         type: "POST",
         url: "/playlistById",
@@ -40,7 +38,7 @@ function getVideoPlaylist() {
     $.ajax({
         type: "POST",
         url: "/getVideoPlaylist",
-        data: { id: idPlaylist },
+        data: { id: playlist.id },
         success: function (data) {
             data.forEach(function (element) {
                 video = new Video(element[1], element[2], element[3], element[4], element[5], element[6]);
@@ -48,7 +46,6 @@ function getVideoPlaylist() {
                 videos.push(video);
             });
             affichage();
-            console.log(videos);
         }
     });
 }
@@ -60,10 +57,10 @@ function affichage() {
     videos.forEach(function (video) {
         code += "<li class='videoList'>"
             + "<img class='thumbnail' src=\"" + video.thumbnail
-            + " \" onclick=clickVideo(\"" + video.lien + "\",\"" + video.titre + "\",\"" + video.vues + "\")>"
-            + "<div id=\"videoListTitleDiv\"><p class=\"textVideoInfo\">" + video.titre + "</p></div>"
+            + " \" onclick=clickVideo(\"" + video.lien + "\",\"" + video.titre + "\",\"" + video.vues + "\",\"" + video.thumbnail + "\")>"
+            + "<div id=\"videoListTitleDiv\"><p class=\"textVideoInfo\"><b>" + video.titre + "</b></p></div>"
             + "<div id=\"videoListPlateformeDiv\"><p class=\"textVideoInfo\">" + "Youtube" + "</p></div>"
-            + "<div id=\"videoListViewsDiv\"><p class=\"textVideoInfo\">" + video.vues + "</p></div>"
+            + "<div id=\"videoListViewsDiv\"><p class=\"textVideoInfo\">" + video.vues + " vues</p></div>"
             + "<input type=\"button\" class=\"ajouterBouton\" id=\"boutonSupprimer" + idSupprimerBouton + "\" value=\"-\" onclick=\"boutonSupprimer(this.id)\"/>"
             + "</li>";
 
@@ -74,6 +71,34 @@ function affichage() {
     document.getElementById("zone_videoThumbnail").innerHTML = code;
 }
 
+function clickVideo(urlVideo, titleVideo, viewsVideo, thumbnailVideo) {
+    const urlObj = { url: urlVideo };
+    const urlString = JSON.stringify(urlObj);
+
+    const titleObj = { title: titleVideo };
+    const titleString = JSON.stringify(titleObj);
+
+    const viewsObj = { views: viewsVideo };
+    const viewsString = JSON.stringify(viewsObj);
+
+    const thumbnailsObj = { thumbnail: thumbnailVideo };
+    const thumbnailString = JSON.stringify(thumbnailsObj);
+
+    const modeObj = { mode: "playlist" };
+    const modeString = JSON.stringify(modeObj);
+
+    const idPlaylistObj = { idPlaylist: playlist.id };
+    const idPlaylistString = JSON.stringify(idPlaylistObj);
+
+    localStorage.setItem('urlVideo', urlString);
+    localStorage.setItem('titleVideo', titleString);
+    localStorage.setItem('viewsVideo', viewsString);
+    localStorage.setItem('thumbnailVideo', thumbnailString);
+    localStorage.setItem('modeVideo', modeString);
+    localStorage.setItem('idPlaylist', idPlaylistString);
+    window.location.href = "/video";
+}
+
 function boutonSupprimer(idBouton) {
     videos.forEach(function (video) {
         if (video.boutonID == idBouton)
@@ -82,7 +107,7 @@ function boutonSupprimer(idBouton) {
                 url: "/supprimerVideoPlaylist",
                 data: { idVideo: video.id, idPlaylist: idPlaylist },
                 success: function (data) {
-                    if(data=="ok")
+                    if (data == "ok")
                         window.location.href = "/modifierPlaylist";
                     else
                         console.log(data);
@@ -100,12 +125,25 @@ function modifierTitre() {
     $.ajax({
         type: "POST",
         url: "/modifierTitrePlaylist",
-        data: { idPlaylist: idPlaylist, titre:titre },
+        data: { idPlaylist: idPlaylist, titre: titre },
         success: function (data) {
-            if(data=="ok")
+            if (data == "ok")
                 window.location.href = "/modifierPlaylist";
             else
                 console.log(data);
         }
     });
+}
+
+function supprimerPlaylist() {
+    if (confirm('Etes-vous sur de vouloir supprimer la playlist : ' + playlist.titre + ' ?')) {
+        $.ajax({
+            type: "POST",
+            url: "/supprimerPlaylist",
+            data: { idPlaylist: playlist.id, idUtilisateur : id },
+            success: function (data) {
+                playlists();
+            }
+        });
+      }
 }

@@ -42,7 +42,7 @@ function affichagePub(data) {
     console.log(data);
     data.forEach(function (pub) {
         idPub = "pubImg" + pub[0];
-        pathPub = "/static/data/pub/" + pub[0] + pub[4]
+        pathPub = "/static/data/pub/" + pub[5] + "/" + pub[0] + pub[4];
         code += "<div class=\"publiciteDiv\">"
             + "<img class=\"pubImgClass\" id=\"" + idPub + "\" src=\"" + pathPub + "\" onclick=\"pubEntreprise(this.id)\"/>"
             + "</div>";

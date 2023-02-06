@@ -24,8 +24,9 @@ function getPub(idPub) {
 function affichagePub(data) {
     document.getElementById("zone_titre").innerHTML += data[1];
     document.getElementById("zone_clics").innerHTML += data[2] + " clics";
+    document.getElementById("zone_url").innerHTML += data[6];
     document.getElementById("zone_paiement").innerHTML += data[3];
 
-    document.getElementById("zone_pubCompte").innerHTML = "<img class=\"pubImgClass\" src=\"/static/data/pub/" + data[0] + data[4] + "\"/>"
+    document.getElementById("zone_pubCompte").innerHTML = "<a href=\"" + data[6] + "\" target=\"_blank\"><img class=\"pubImgClass\" src=\"/static/data/pub/" + data[5] + "/" + data[0] + data[4] + "\"/></a>"
 
 }

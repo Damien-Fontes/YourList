@@ -4,6 +4,7 @@ from werkzeug.datastructures import  FileStorage
 import jsonpickle
 import hashlib
 import pathlib
+import random
 app = Flask(__name__, template_folder='./src/frontend/templates', static_folder='./src/frontend/static')
 
 
@@ -29,6 +30,14 @@ def index():
 def cookieConnected():
     resp = make_response('ok')
     resp.set_cookie('connected','true')
+    resp.set_cookie('compteEntreprise','false')
+    return resp
+
+@app.route('/cookieConnectedEntreprise/', methods=["POST"])
+def cookieConnectedEntreprise():
+    resp = make_response('ok')
+    resp.set_cookie('connected','true')
+    resp.set_cookie('compteEntreprise','true')
     return resp
 
 @app.route('/testConnexion/', methods=["POST"])
@@ -47,10 +56,25 @@ def testConnexionEntreprise():
 
 @app.route('/isConnected/', methods=["POST"])
 def isConnected():
+    resp = make_response("false")
     if(request.cookies.get('connected') == "true"):
-        resp = make_response("true")
+        if(request.cookies.get('compteEntreprise') == "true"):
+            resp = make_response("entreprise")
+            resp.set_cookie('connected','false')
+            resp.set_cookie('compteEntreprise','false')
+        else:
+            resp = make_response("true")
+    return resp
+    
+@app.route('/isConnectedEntreprise/', methods=["POST"])
+def isConnectedEntreprise():
+    resp = make_response("false")
+    if(request.cookies.get('connected') == "true"):
+        if(request.cookies.get('compteEntreprise') == "true"):
+            resp = make_response("true")
     else:
-        resp = make_response("false")
+        resp.set_cookie('connected','false')
+        resp.set_cookie('compteEntreprise','false')
     return resp
 
 @app.route('/createUser/', methods=["POST"])
@@ -117,6 +141,7 @@ def getPlaylist():
         res[i].append(playlist[0])
         res[i].append(playlist[1])
         res[i].append(playlist[2])
+        res[i].append(playlist[3])
         res[i].append(nbVideosPlaylist(playlist[0])[0])
         i=i+1
 
@@ -145,6 +170,8 @@ def addVideoPlaylist():
         createVideo(titreVideo, lienVideo, dureeVideo, siteVideo, thumbnailVideo, vuesVideo)
     if(getContient(getVideoByURL(lienVideo)[0], idPlaylist) == None):
         createContient(getVideoByURL(lienVideo)[0], idPlaylist)
+        if(getPlaylistById(idPlaylist)[2] == None):
+            modifierThumbnailPlaylistById(thumbnailVideo, idPlaylist)
         return "ok"
     else:
         return "alreadyExist"
@@ -168,6 +195,7 @@ def playlistById():
         res.append(playlist[0])
         res.append(playlist[1])
         res.append(playlist[2])
+        res.append(playlist[3])
     return res
 
 @app.route('/getVideoPlaylist/', methods=["POST"])
@@ -199,6 +227,20 @@ def modifierTitrePlaylist():
     modifierTitrePlaylistById(idPlaylist, titre)
     return "ok"
 
+@app.route('/supprimerPlaylist/', methods=["POST"])
+def supprimerPlaylist():
+    idPlaylist = request.form['idPlaylist']
+    idUtilisateur = request.form['idUtilisateur']
+    supprimerPlaylistSQL(idPlaylist)
+    supprimerPossedeSQL(idPlaylist, idUtilisateur)
+    contients = getContientPlaylistByIdP(idPlaylist)
+    if(contients == None):
+        return "Playlist Vide"
+    else:
+        for contient in contients:
+            supprimerContient(contient[0], contient[1])
+    return "ok"
+
 @app.route('/updateUser/', methods=["POST"])
 def updateUser():
     id = request.form['id']
@@ -213,11 +255,14 @@ def updateUser():
 def uploaderEntreprise():
     if request.method == 'POST':
         nom = request.form["titrePub"]
+        lien = request.form["lienPub"]
         idU = request.form["idUser"]
         f = request.files['file']
-        creerPubSQL(nom, "NULL", pathlib.Path(f.filename).suffix, idU)
+        format = request.form['format']
+        print(format)
+        creerPubSQL(nom, "NULL", pathlib.Path(f.filename).suffix, format, lien, idU)
         id = getMaxIdPub()[0]
-        path = "./src/frontend/static/data/pub/" + str(id) + pathlib.Path(f.filename).suffix
+        path = "./src/frontend/static/data/pub/" + format + "/" + str(id) + pathlib.Path(f.filename).suffix
         f.save(path)
         return render_template("entreprise/uploaderEntreprise.html")
 	
@@ -236,6 +281,8 @@ def getPubByIdUtilisateur():
             res[i].append(pub[3])
             res[i].append(pub[4])
             res[i].append(pub[5])
+            res[i].append(pub[6])
+            res[i].append(pub[7])
             i=i+1
         return res
 	
@@ -252,19 +299,42 @@ def getPubByIdUIdP():
         res.append(pub[3])
         res.append(pub[4])
         res.append(pub[5])
+        res.append(pub[6])
+        res.append(pub[7])
+        return res
+	
+@app.route('/getRandomPubByFormat/', methods = ['GET', 'POST'])
+def getRandomPubByFormat():
+    if request.method == 'POST':
+        res = []
+        pubNmb = request.form["pubNmb"]
+        format = request.form["format"]
+        pubs = getPubByFormatSQL(format)
+        for i in range(int(pubNmb)):
+            res.append(pubs[random.randint(0, len(pubs)-1)])
+        return res
+
+@app.route('/clickPub/', methods = ['GET', 'POST'])
+def clickPub():
+    if request.method == 'POST':
+        idPub = request.form["idPub"]
+        pub = getPubByIdSQL(idPub)
+        modifierClicsByIdSQL(pub[0][2]+1, idPub)
+        res = [(getPubByIdSQL(idPub)[0])]
         return res
 
 @app.route('/connexion/', methods=["GET","POST"])
 def connexion():
     resp = make_response(render_template('connexion.html'))
     resp.set_cookie('connected','false')
+    resp.set_cookie('compteEntreprise','false')
     return resp
 
 @app.route('/inscription/', methods=["GET","POST"])
 def inscription():
     resp = make_response(render_template('inscription.html'))
     resp.set_cookie('connected','false')
-    resp.set_cookie('admin','false')
+    resp.set_cookie('compteEntreprise','false')
     return resp
 
 @app.route('/video/', methods=["GET","POST"])

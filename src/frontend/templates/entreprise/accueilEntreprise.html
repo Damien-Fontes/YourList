@@ -14,13 +14,26 @@
         <h1>YourList | Entreprise</h1>
     </section>
     <section class="mainSection">
-        <h2>Ajouter une Pub LeaderBoard (728x90)</h2>
-        <form name="connexionForm" id="connexionForm" action="http://localhost:5000/uploaderEntreprise/" method = "POST" enctype = "multipart/form-data">
-            <div class="champs">
-                <p><input type="text" name="titrePub" placeholder="Titre" required/></p>
-                <p><input type="text" name="idUser" id="idUserDisplayNone" required/></p>
-                <p><input type="file" name="file" accept="image/png, image/jpeg" /></p>
-                <p>Moyen de paiement</p>
+        <form name="ajouterPubForm" id="ajouterPubForm" action="http://localhost:5000/uploaderEntreprise/" method="POST"
+            enctype="multipart/form-data">
+            <h2>Ajouter une Publicité LeaderBoard</h2>
+            <div class="champsAjouterPub">
+                <p><input type="text" name="titrePub" placeholder="Titre" required /></p>
+                <p><input type="text" name="lienPub" placeholder="URL de redirection de votre pub" required /></p>
+                <p><input type="text" name="idUser" id="idUserDisplayNone" required /></p>
+                <p><input type="file" name="file" accept="image/png, image/jpeg" required/></p>
+                <fieldset>
+                    <legend>Format de la publicité</legend>
+                    <input type="radio" class="inputRadio" id="728x90" name="format" value="728x90">
+                    <label for="728x90"> 728x90</label>
+                    <input type="radio" class="inputRadio" id="320x50" name="format" value="320x50">
+                    <label for="320x50"> 320x50</label>
+                </fieldset>
+                <fieldset>
+                    <legend>Moyen de paiement</legend>
+                    <p>Indisponible</p>
+                </fieldset>
+
                 <input type="submit" id="creerBtn" value="Créer" />
             </div>
         </form>

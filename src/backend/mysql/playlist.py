@@ -32,8 +32,17 @@ def modifierTitrePlaylistById(idPlaylist, titre):
             c.execute(request, params)
             db.commit()
 
+def modifierThumbnailPlaylistById(thumbnail, idPlaylist):
+    request = "UPDATE playlist SET thumbnail = %s WHERE id = %s"
+    params = [thumbnail, idPlaylist]
+
+    with mysql.connector.connect(**connection_params) as db :
+        with db.cursor() as c:
+            c.execute(request, params)
+            db.commit()
+
 def getListPlaylist(idUtilisateur):
-    request = "SELECT playlist.id, playlist.nomPlaylist, playlist.createur FROM playlist, possede, utilisateur WHERE utilisateur.id = idUtilisateur AND playlist.id = idPlaylist AND utilisateur.id = %s "
+    request = "SELECT playlist.id, playlist.nomPlaylist, playlist.createur, playlist.thumbnail FROM playlist, possede, utilisateur WHERE utilisateur.id = idUtilisateur AND playlist.id = idPlaylist AND utilisateur.id = %s "
     params = [idUtilisateur]
     with mysql.connector.connect(**connection_params) as db :
         with db.cursor() as c:
@@ -50,3 +59,13 @@ def getPlaylistById(idP):
             resultats = c.fetchall()
             for idL in resultats:
                 return(idL)
+
+def supprimerPlaylistSQL(idPlaylist):
+    request = (
+        "DELETE FROM playlist WHERE id=%s")
+    params = [idPlaylist]
+
+    with mysql.connector.connect(**connection_params) as db :
+        with db.cursor() as c:
+            c.execute(request, params)
+            db.commit()

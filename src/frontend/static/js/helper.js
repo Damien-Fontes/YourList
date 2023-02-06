@@ -39,15 +39,20 @@ $.ajax({
     type: "POST",
     url: "/isConnected",
     success: function (data) {
-        if (data == "true")
+        console.log(data);
+        if (data == "true") {
             menuHautStr = "<a class=\"hrefLink\" onclick=\"playlists()\">Playlists</a> | "
                 + "<a class=\"hrefLink\" onclick=\"compte()\">Compte</a> | "
                 + "<a class=\"hrefLink\" onclick=\"seDeconnecter()\">Se Déconnecter</a> ";
-        else
+        }
+        else if (data == "entreprise") {
+            window.location.href = "/";
+        }
+        else if (data == "false") {
             menuHautStr = "<a class=\"hrefLink\" onclick=\"allerA('')\">Accueil</a> | "
                 + "<a class=\"hrefLink\" onclick=\"seDeconnecter()\">Se Connecter</a> | "
                 + "<a class=\"hrefLink\" onclick=\"inscrire()\">S'inscrire</a> ";
-    
+        }
         document.getElementsByClassName("menuHaut")[0].innerHTML = menuHautStr;
     }
 });
@@ -59,6 +64,8 @@ const idObj = JSON.parse(idString);
 id = idObj.id;
 console.log("id : " + id);
 
+videosAjouter = Array();
+
 function allerA(fichier) {
     str = "/" + fichier;
     window.location.href = str;
@@ -68,7 +75,7 @@ function playlists() {
     $.ajax({
         type: "POST",
         url: "/playlist",
-        success: function (data) {    
+        success: function (data) {
             window.location.href = "/playlist";
         }
     });
@@ -78,7 +85,7 @@ function compte() {
     $.ajax({
         type: "POST",
         url: "/compte",
-        success: function (data) {    
+        success: function (data) {
             window.location.href = "/compte";
         }
     });
@@ -88,7 +95,7 @@ function seDeconnecter() {
     $.ajax({
         type: "POST",
         url: "/connexion",
-        success: function (data) {    
+        success: function (data) {
             window.location.href = "/connexion";
         }
     });
@@ -98,26 +105,25 @@ function inscrire() {
     $.ajax({
         type: "POST",
         url: "/inscription",
-        success: function (data) {    
+        success: function (data) {
             window.location.href = "/inscription";
         }
     });
 }
 
-function boutonAjouter(idBouton) {
+function boutonAjouter(idBouton, videos) {
+    videosAjouter = videos;
     $.ajax({
         type: "POST",
         url: "/getPlaylist",
         data: { id: id },
         success: function (data) {
-            // console.log(data);
             playlistDivInit(data, idBouton);
         }
     });
 }
 
 function playlistDivInit(data, idBouton) {
-    console.log(idBouton);
     newIdBouton = idBouton;
     code = "<ol class=\"zone_playlist\">";
     data.forEach(function (playlist) {
@@ -135,12 +141,18 @@ function playlistDivInit(data, idBouton) {
     popUpDiv.innerHTML = code;
     popUpDiv.style.left = rect.left - 190 + "px";
     popUpDiv.style.top = rect.top + window.scrollY - 75 + "px";
-    popUpDiv.style.display = "block";
-
+    $.ajax({
+        type: "POST",
+        url: "/isConnected",
+        success: function (data) {
+            if (data == "true")
+                popUpDiv.style.display = "block";
+        }
+    });
 }
 
 function ajouterVideo(idPlaylist, idBouton) {
-    videos.forEach(function (video) {
+    videosAjouter.forEach(function (video) {
         if (video.boutonID == idBouton) {
             $.ajax({
                 type: "POST",
@@ -152,6 +164,18 @@ function ajouterVideo(idPlaylist, idBouton) {
                         confirm('Vidéo déjà ajoutée à la Playlist');
                 }
             });
+        }
+    });
+    document.getElementsByClassName("popUpListePlaylist")[0].style.display = "none";
+}
+
+function clickPub(idPub) {
+    $.ajax({
+        type: "POST",
+        url: "/clickPub",
+        data: { idPub: idPub },
+        success: function (data) {
+            window.open(data[0][6], '_blank');
         }
     });
 }

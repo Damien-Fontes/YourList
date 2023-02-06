@@ -22,3 +22,12 @@ def verificationPossede(idU, idP):
             resultats = c.fetchall()
             for idL in resultats:
                 return(idL)
+     
+def supprimerPossedeSQL(idPlaylist, idUtilisateur):
+    request = ("DELETE FROM possede WHERE idPlaylist = %s AND idUtilisateur=%s")
+    params = [idPlaylist, idUtilisateur]
+
+    with mysql.connector.connect(**connection_params) as db :
+        with db.cursor() as c:
+            c.execute(request, params)
+            db.commit()

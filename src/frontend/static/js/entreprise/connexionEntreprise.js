@@ -35,7 +35,7 @@ function storageID(login) {
 function cookieConnected() {
     $.ajax({
         type: "POST",
-        url: "/cookieConnected",
+        url: "/cookieConnectedEntreprise",
         success: function (data) {
             if (data == "ok")
                 window.location.href = "/accueilEntreprise";

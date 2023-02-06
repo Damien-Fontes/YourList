@@ -20,17 +20,18 @@
     </form>
     </section>
     <section class="topMainSection">
-        <p id="retour" onclick="allerA('playlist')">&#171; Retour</p>
+        <a id="retour" onclick="allerA('playlist')">&#171; Playlists</a>
         <h2 id="zone_titrePlaylist"></h2>
         </p>
     </section>
     <section class="mainSection">
         <div class="zone_modification">
-            <a class="hrefLink" id="modifierTitre" onclick="modifierTitreAffichage()">Modifier le nom de la playlist</a>
+            <p style="margin: 0;"><a class="hrefLink" id="modifierTitre" onclick="modifierTitreAffichage()">Modifier le nom de la playlist</a></p>
             <p id="zone_modifierTitre">
                 <input type="text" id="titrePlaylistText" placeholder="Nouveau nom" />
                 <input type="button" id="titrePlaylistBtn" value="Modifier" onclick="modifierTitre()" />
             </p>
+            <p><a class="hrefLink" id="supprimerPlaylist" onclick="supprimerPlaylist()">Supprimer la playlist</a></p>
         </div>
         <ol id="zone_videoThumbnail"></ol>
     </section>
