@@ -17,7 +17,7 @@ Compte pour se connecter en Entreprise :
 - login : "rootE"
 - password : "root"
 
-
+--------------------
 Autres informations :
 - Aucune publicités n'est présente au lancement de l'application.
 Vous pouvez en rajouter dans la partie Entreprise : 127.0.0.1:5000/accueilEntreprise/
