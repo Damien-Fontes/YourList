@@ -1,5 +1,30 @@
 # Projet YourList - Damien Fontes
 
+--------------------
+Accès au code :
+Le code se trouve sur le dépôt GitHub suivant : https://github.com/Damien-Fontes/YourList.
+Pour y accéder : 
+- Ouvrir un terminal
+- Effectuer la commande : git clone https://github.com/Damien-Fontes/YourList.git
+
+--------------------
+Structures :
+- Les documents à rendre se trouvent dans le dossier YourList/documentations/
+- Les fichiers backend se trouvent dans les dossiers : 
+    - YourList/ (pour le fichier app.py)
+    - YourList/src/backend/
+    - YourList/src/backend/mysql/
+
+- Les fichiers frontend se trouvent dans les dossiers :
+    - YourList/src/frontend/static/css/
+    - YourList/src/frontend/static/js/
+    - YourList/src/frontend/static/js/entreprise
+    - YourList/src/frontend/templates/
+    - YourList/src/frontend/templates/entreprise
+
+- Les données se trouvent dans le dossier YourList/src/frontend/static/data/
+
+--------------------
 Installer et lancer l'application :
 - Installer Docker Desktop 
 - Ouvrir un terminal dans le dossier YourList/
@@ -9,11 +34,11 @@ Installer et lancer l'application :
     - 127.0.0.1:5000/ pour utiliser l'application en tant que client.
     - 127.0.0.1:5000/connexionEntreprise/ pour utiliser l'application en tant qu'entreprise.
 
-Compte pour se connecter : 
+Identifiants pour se connecter : 
 - login : "root"
 - password : "root"
 
-Compte pour se connecter en Entreprise : 
+Identifiants pour se connecter en Entreprise : 
 - login : "rootE"
 - password : "root"
 
