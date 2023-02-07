@@ -49,3 +49,13 @@ btn.addEventListener('click', function handleClick(event) {
     document.getElementById("login").value = '';
     document.getElementById("mdp").value = '';
 });
+
+function inscrire() {
+    $.ajax({
+        type: "POST",
+        url: "/inscriptionEntreprise",
+        success: function (data) {
+            window.location.href = "/inscriptionEntreprise";
+        }
+    });
+}

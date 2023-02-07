@@ -39,7 +39,6 @@ $.ajax({
     type: "POST",
     url: "/isConnected",
     success: function (data) {
-        console.log(data);
         if (data == "true") {
             menuHautStr = "<a class=\"hrefLink\" onclick=\"playlists()\">Playlists</a> | "
                 + "<a class=\"hrefLink\" onclick=\"compte()\">Compte</a> | "
@@ -62,7 +61,6 @@ const idString = localStorage.getItem('id');
 const idObj = JSON.parse(idString);
 
 id = idObj.id;
-console.log("id : " + id);
 
 videosAjouter = Array();
 
@@ -159,7 +157,6 @@ function ajouterVideo(idPlaylist, idBouton) {
                 url: "/addVideoPlaylist",
                 data: { id: id, idPlaylist: idPlaylist, titre: video.titre, lien: video.lien, duree: video.duree, site: video.site, thumbnail: video.thumbnail, vues: video.vues },
                 success: function (data) {
-                    console.log(data);
                     if (data == "alreadyExist")
                         confirm('Vidéo déjà ajoutée à la Playlist');
                 }
@@ -178,4 +175,13 @@ function clickPub(idPub) {
             window.open(data[0][6], '_blank');
         }
     });
+}
+
+function boutonRechercherHelper() {
+    input = document.getElementById("rechercher").value;
+    const inputObj = { input: input };
+    const inputString = JSON.stringify(inputObj);
+
+    localStorage.setItem('input', inputString);
+    allerA('');
 }

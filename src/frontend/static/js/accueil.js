@@ -1,51 +1,50 @@
 videosAccueil = Array();
 pubNmb = 0;
 
-// import myJson from 'starwars.json' assert {type: 'json'};
 function onLoad() {
     document.getElementsByClassName("mainSection")[0].style.display = "none";
+
+    const inputString = localStorage.getItem('input');
+    if (inputString != null) {
+        const inputObj = JSON.parse(inputString);
+        input = inputObj.input;
+        console.log("input");
+        localStorage.removeItem("input");
+
+        console.log("chargement");
+        $.ajax({
+            type: "POST",
+            url: "/getDataRechercher",
+            data: { input: input },
+            success: function (data) {
+                callBackGetSuccess(data)
+            }
+        });
+    }
 }
 
 function boutonRechercher() {
     var input = document.getElementById("rechercher").value;
-    var apiKey = "45ca9844fc45d3658b9a4f230f31879951769b3722ad8cf491fb3ba18dee1d66";
-    // var url = "https://serpapi.com/search.json?api_key=" + apiKey + "&engine=youtube&search_query=star+wars";
-    //console.log(myJson.search_metadata.id);
-    // console.log("myJson.search_metadata.id");
-    // const data = require('starwars.json');
-    callBackGetSuccessLocal();
+    $.ajax({
+        type: "POST",
+        url: "/getDataRechercher",
+        data: { input: input },
+        success: function (data) {
+            callBackGetSuccess(data)
+        }
+    });
+}
 
-
+async function callBackGetSuccess(data) {
     document.getElementsByClassName("mainSection")[0].style.display = "block";
-
-
-
-    // $.get(url, callBackGetSuccess).done(function () {
-    // })
-    //     .fail(function () {
-    //         alert("error");
-    //     })
-    //     .always(function () {
-    //     });
-}
-
-var callBackGetSuccess = function (data) {
-    console.log("callBackGetSuccess");
-}
-
-async function callBackGetSuccessLocal() {
     idAjouterBouton = 0;
     url = '../static/js/starwars.json';
-    let obj, code = "";
-
-    await fetch(url)
-        .then((response) => response.json())
-        .then((data) => { obj = data; });
+    let code = "";
 
     var videoThumbnail = document.getElementById('zone_videoThumbnail');
     var iPub = 0;
 
-    obj.video_results.forEach(function (element) {
+    data.video_results.forEach(function (element) {
         link = element.link;
         title = element.title;
         link = link.replace("watch?v=", "embed/");
@@ -66,10 +65,10 @@ async function callBackGetSuccessLocal() {
     videosAccueil.forEach(function (video) {
         code += "<li class='videoList'>"
             + "<img class='thumbnail' src=\"" + video.thumbnail
-            + " \" onclick=clickVideo(\"" + video.lien + "\",\"" + video.titre + "\",\"" + video.vues + "\",\"" + video.thumbnail +"\")>"
+            + " \" onclick=clickVideo(\"" + video.lien + "\",\"" + video.titre + "\",\"" + video.vues + "\",\"" + video.thumbnail + "\")>"
             + "<div id=\"videoListTitleDiv\"><p class=\"textVideoInfo\">" + video.titre + "</p></div>"
             + "<div id=\"videoListPlateformeDiv\"><p class=\"textVideoInfo\">" + "Youtube" + "</p></div>"
-            + "<div id=\"videoListViewsDiv\"><p class=\"textVideoInfo\">" + video.vues + "</p></div>"
+            + "<div id=\"videoListViewsDiv\"><p class=\"textVideoInfo\">" + video.vues + " vues</p></div>"
             + "<input type=\"button\" class=\"ajouterBouton\" id=\"" + video.boutonID + "\" value=\"+\" onclick=\"boutonAjouterAccueil(this.id)\"/>"
             + "</li>";
 
@@ -102,7 +101,7 @@ function clickVideo(urlVideo, titleVideo, viewsVideo, thumbnailVideo) {
 
     const thumbnailsObj = { thumbnail: thumbnailVideo };
     const thumbnailString = JSON.stringify(thumbnailsObj);
-    
+
     const modeObj = { mode: "video" };
     const modeString = JSON.stringify(modeObj);
 
@@ -124,7 +123,7 @@ function affichagePub() {
             i = 0;
             data.forEach(function (pub) {
                 console.log(pub[0]);
-                code = "<img class=\"videoListPubImg\" src=\"/static/data/pub/" + pub[5] + "/"+ pub[0] + pub[4] + "\" onclick=\"clickPub(" + pub[0] + ")\"/>";
+                code = "<img class=\"videoListPubImg\" src=\"/static/data/pub/" + pub[5] + "/" + pub[0] + pub[4] + "\" onclick=\"clickPub(" + pub[0] + ")\"/>";
                 document.getElementById("videoListPubDiv" + i).innerHTML = code;
                 i++;
             });

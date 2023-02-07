@@ -1,11 +1,16 @@
 from flask import Flask, render_template, request, make_response
+from flask_cors import CORS
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import  FileStorage
+import json
 import jsonpickle
+import requests
 import hashlib
 import pathlib
 import random
 app = Flask(__name__, template_folder='./src/frontend/templates', static_folder='./src/frontend/static')
+corps = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 import sys
@@ -76,6 +81,17 @@ def isConnectedEntreprise():
         resp.set_cookie('connected','false')
         resp.set_cookie('compteEntreprise','false')
     return resp
+
+    
+@app.route('/getDataRechercher/', methods=["POST"])
+def getDataRechercher():
+    input = request.form['input']
+    input.replace(" ","+")
+    apiKey = "45ca9844fc45d3658b9a4f230f31879951769b3722ad8cf491fb3ba18dee1d66"
+    url = "https://serpapi.com/search.json?api_key=" + apiKey + "&engine=youtube&search_query=" + input
+    response_API = requests.get(url)
+    res = json.loads(response_API.text)
+    return res
 
 @app.route('/createUser/', methods=["POST"])
 def createUser():
@@ -259,7 +275,6 @@ def uploaderEntreprise():
         idU = request.form["idUser"]
         f = request.files['file']
         format = request.form['format']
-        print(format)
         creerPubSQL(nom, "NULL", pathlib.Path(f.filename).suffix, format, lien, idU)
         id = getMaxIdPub()[0]
         path = "./src/frontend/static/data/pub/" + format + "/" + str(id) + pathlib.Path(f.filename).suffix

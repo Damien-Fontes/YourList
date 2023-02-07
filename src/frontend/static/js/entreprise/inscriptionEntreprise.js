@@ -28,3 +28,14 @@ btn.addEventListener('click', function handleClick(event) {
     document.getElementById("entreprise").value = '';
     document.getElementById("email").value = '';
 });
+
+
+function seDeconnecter() {
+    $.ajax({
+        type: "POST",
+        url: "/connexionEntreprise",
+        success: function (data) {
+            window.location.href = "/connexionEntreprise";
+        }
+    });
+}

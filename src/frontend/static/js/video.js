@@ -7,8 +7,7 @@ let videosSuggestion = new Array();
 let videoPrincipale;
 
 function onLoad() {
-    loadJSON();
-
+    // loadJSON();
 
     const urlString = localStorage.getItem('urlVideo');
     const urlObj = JSON.parse(urlString);
@@ -67,6 +66,15 @@ function onLoad() {
             }
         });
     }
+    
+    $.ajax({
+        type: "POST",
+        url: "/getDataRechercher",
+        data: { input: videoPrincipale.titre },
+        success: function (data) {
+            callBackGetSuccess(data)
+        }
+    });
 }
 
 function boutonAjouterVideoPrincipale() {
@@ -204,17 +212,12 @@ function boutonRechercher() {
     window.location.href = "/accueil";
 }
 
-async function loadJSON() {
+async function callBackGetSuccess(data) {
     idAjouterBouton = 0;
-    url = '../static/js/starwars.json';
-    let obj, code = "";
+    let code = "";
     var iPub = 0;
 
-    await fetch(url)
-        .then((response) => response.json())
-        .then((data) => { obj = data; });
-
-    obj.video_results.forEach(function (element) {
+    data.video_results.forEach(function (element) {
         link = element.link;
         title = element.title;
         link = link.replace("watch?v=", "embed/");
