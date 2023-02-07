@@ -10,11 +10,12 @@ def creerCompte(password,login,nom,prenom,entreprise):
     creerCompte(password,login,nom,prenom,entreprise)
     return "true"
      
-
+#Fonction de connection pour compte non entreprise
 def login(id,mdp):
     conn = connexion(id,mdp)
     return conn
     
+#Fonction de connection pour compte entreprise
 def loginEntreprise(id,mdp):
     conn = connexionEntreprise(id,mdp)
     return conn

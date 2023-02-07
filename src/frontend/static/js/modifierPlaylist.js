@@ -1,6 +1,9 @@
 playlist = new Playlist()
 videos = new Array()
 
+//Appelé au chargement de la page
+//Récupère l'id de la playliste dans le localStorage
+//Vérifie que l'utilisateur possède la playlist
 function onLoad() {
     const idPlaylistString = localStorage.getItem('idPlaylist');
     const idPlaylistObj = JSON.parse(idPlaylistString);
@@ -20,6 +23,8 @@ function onLoad() {
     });
 }
 
+//Récupère les informations de la playlist grâce à son id
+//Entrée : id de la playlist
 function getPlaylistById(idPlaylist) {
     $.ajax({
         type: "POST",
@@ -34,6 +39,7 @@ function getPlaylistById(idPlaylist) {
     });
 }
 
+//Récupère les vidéos présentes dans la playlist
 function getVideoPlaylist() {
     $.ajax({
         type: "POST",
@@ -50,6 +56,7 @@ function getVideoPlaylist() {
     });
 }
 
+//Affiche le titre de la playlist et toutes les vidéos de la playlist
 function affichage() {
     document.getElementById("zone_titrePlaylist").innerHTML = playlist.titre;
     idSupprimerBouton = 0;
@@ -71,6 +78,10 @@ function affichage() {
     document.getElementById("zone_videoThumbnail").innerHTML = code;
 }
 
+//Si on clic sur une vidéo
+//Sauvegarde les données de la vidéo dans localStorage et l'id de la playlist
+//Redirection vers video.html en mode 'playlist'
+//Entrée : url, titre, nombre de vues et miniature de la vidéo
 function clickVideo(urlVideo, titleVideo, viewsVideo, thumbnailVideo) {
     const urlObj = { url: urlVideo };
     const urlString = JSON.stringify(urlObj);
@@ -99,6 +110,9 @@ function clickVideo(urlVideo, titleVideo, viewsVideo, thumbnailVideo) {
     window.location.href = "/video";
 }
 
+//Bouton '-'
+//Supprime une vidéo d'une playlist
+//Entrée : id du bouton '-' appuyé
 function boutonSupprimer(idBouton) {
     videos.forEach(function (video) {
         if (video.boutonID == idBouton)
@@ -116,10 +130,15 @@ function boutonSupprimer(idBouton) {
     });
 }
 
+//Affiche les champs de modification de titre de la playlist
 function modifierTitreAffichage() {
     document.getElementById("zone_modifierTitre").style.display = "block";
 }
 
+//Bouton modifier (titre)
+//Récupère la valeur du champs pour le nouveau titre
+//Modifie le titre de la playlist
+//Rechargement de la page
 function modifierTitre() {
     titre = document.getElementById("titrePlaylistText").value;
     $.ajax({
@@ -135,6 +154,8 @@ function modifierTitre() {
     });
 }
 
+//Supprime (avec vérification) la playlist
+//Redirection vers playlist.html
 function supprimerPlaylist() {
     if (confirm('Etes-vous sur de vouloir supprimer la playlist : ' + playlist.titre + ' ?')) {
         $.ajax({

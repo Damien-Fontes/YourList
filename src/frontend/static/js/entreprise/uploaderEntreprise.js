@@ -1,3 +1,4 @@
+//Redirection vers accueilEntreprise.html
 $.ajax({
     type: "POST",
     url: "/accueilEntreprise",

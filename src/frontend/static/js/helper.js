@@ -34,7 +34,10 @@ class Video {
     }
 }
 
-
+//Vérifie si la personne est connectée et possède un compte non Entreprise
+//Si tout est bon : affichage du menu pour les connectés
+//Si compte Entrepise : redirection acceuil en déconnectant le compte
+//Si pas connecté : affichage du menu pour les non connectés
 $.ajax({
     type: "POST",
     url: "/isConnected",
@@ -56,7 +59,7 @@ $.ajax({
     }
 });
 
-//id utilisateur
+//Récupère l'id utilisateur
 const idString = localStorage.getItem('id');
 const idObj = JSON.parse(idString);
 
@@ -64,11 +67,14 @@ id = idObj.id;
 
 videosAjouter = Array();
 
+//Permet d'aller à la page html donnée en paramètre
 function allerA(fichier) {
     str = "/" + fichier;
     window.location.href = str;
 }
 
+//Bouton playlists du menu
+//Redirection vers playlist.html
 function playlists() {
     $.ajax({
         type: "POST",
@@ -79,6 +85,8 @@ function playlists() {
     });
 }
 
+//Bouton compte du menu
+//Redirection vers compte.html
 function compte() {
     $.ajax({
         type: "POST",
@@ -89,6 +97,8 @@ function compte() {
     });
 }
 
+//Bouton se déconnecter du menu
+//Redirection vers connexion.html
 function seDeconnecter() {
     $.ajax({
         type: "POST",
@@ -99,6 +109,8 @@ function seDeconnecter() {
     });
 }
 
+//Bouton s'inscrire du menu
+//Redirection vers inscription.html
 function inscrire() {
     $.ajax({
         type: "POST",
@@ -109,6 +121,9 @@ function inscrire() {
     });
 }
 
+//Bouton ajouter '+' d'une vidéo.
+//Récupère la liste des playlist de l'utilisateur
+//Entrée : id du bouton, tableau contenant toutes les vidéos de la page
 function boutonAjouter(idBouton, videos) {
     videosAjouter = videos;
     $.ajax({
@@ -121,6 +136,9 @@ function boutonAjouter(idBouton, videos) {
     });
 }
 
+//Affiche les playlists disponnible de l'utilisateur lorsqu'on clic sur '+' d'une vidéo
+//N'affiche pas les playlists si la personne n'est pas connecté
+//Entrée : tableau contenant les playlists de l'utilisateur et les infos des playlist, id du bouton '+' cliqué
 function playlistDivInit(data, idBouton) {
     newIdBouton = idBouton;
     code = "<ol class=\"zone_playlist\">";
@@ -139,6 +157,8 @@ function playlistDivInit(data, idBouton) {
     popUpDiv.innerHTML = code;
     popUpDiv.style.left = rect.left - 190 + "px";
     popUpDiv.style.top = rect.top + window.scrollY - 75 + "px";
+
+    //N'affiche pas les playlists si la personne n'est pas connecté
     $.ajax({
         type: "POST",
         url: "/isConnected",
@@ -149,6 +169,9 @@ function playlistDivInit(data, idBouton) {
     });
 }
 
+//Ajoute la vidéo à la playlist (toujours suite au bouton '+')
+//Cherche quelle vidéo est liée au bouton '+' appuyé, ajoute la vidéo à la playlist, désaffiche la liste des playlists
+//Entrée : idde la Playlist, id du bouton '+'
 function ajouterVideo(idPlaylist, idBouton) {
     videosAjouter.forEach(function (video) {
         if (video.boutonID == idBouton) {
@@ -166,6 +189,9 @@ function ajouterVideo(idPlaylist, idBouton) {
     document.getElementsByClassName("popUpListePlaylist")[0].style.display = "none";
 }
 
+//Récupère l'url de redirection de la pub cliquée
+//Redirection vers cet url
+//Entrée : id de la pub
 function clickPub(idPub) {
     $.ajax({
         type: "POST",
@@ -177,6 +203,9 @@ function clickPub(idPub) {
     });
 }
 
+//Bouton rechercher (celui avec la loupe) lorsqu'on est pas sur la page accueil.html
+//Sauvegarde dans localStorage la valeurs du champs de recherche
+//Redirection vers accueil.html
 function boutonRechercherHelper() {
     input = document.getElementById("rechercher").value;
     const inputObj = { input: input };

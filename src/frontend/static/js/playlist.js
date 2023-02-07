@@ -1,3 +1,6 @@
+//Appelé au chargement de la page
+//Cache la zone de création de playlist
+//Récupère toutes les playlists que possède l'utilisateur
 function onLoad() {
     document.getElementById("zone_creationPlaylist").style.display = "none";
 
@@ -7,8 +10,6 @@ function onLoad() {
         url: "/getPlaylist",
         data: { id: id },
         success: function (data) {
-            console.log(code);
-            console.log(data);
             data.forEach(function (playlist) {
                 code += "<li class='playlistList'>";
                 if(playlist[3] != null)
@@ -24,13 +25,17 @@ function onLoad() {
     });
 }
 
+//Bouton Créer Playlist
+//Affiche la zone de création de playlist
 function boutonCreerPlaylist() {
     document.getElementById("zone_creationPlaylist").style.display = "block";
 }
 
+//Récupère la valeur du champs correspondant au nom de la nouvelle playlist
+//Création de la playlist
+//Rechargement de la page
 function boutonCreationPlaylist() {
     nomPlaylist = document.getElementById("nomPlaylist").value;
-    console.log(nomPlaylist);
 
     if (nomPlaylist != "") {
         $.ajax({
@@ -47,8 +52,11 @@ function boutonCreationPlaylist() {
     }
 }
 
+//Bouton modifier des playlists
+//Sauvegarde dans localStorage l'id de la playlist
+//Redirection vers modifierPlaylist.html
+//Entrée : id de la playlist à modifier
 function boutonModifierPlaylist(idPlaylist) {
-    console.log(idPlaylist);
     const idPlaylistObj = { idPlaylist: idPlaylist };
     const idPlaylistString = JSON.stringify(idPlaylistObj);
 
@@ -63,6 +71,10 @@ function boutonModifierPlaylist(idPlaylist) {
     });
 }
 
+//Si on clic sur une vidéo
+//Sauvegarde les données de la vidéo dans localStorage et l'id de la playlist
+//Redirection vers video.html en mode 'playlist'
+//Entrée : id de la playlist
 function clickVideo(idPlaylist) {    
     $.ajax({
         type: "POST",
@@ -97,22 +109,4 @@ function clickVideo(idPlaylist) {
             window.location.href = "/video";
         }
     });
-    /*
-    const urlObj = { url: urlVideo };
-    const urlString = JSON.stringify(urlObj);
-
-    const titleObj = { title: titleVideo };
-    const titleString = JSON.stringify(titleObj);
-
-    const viewsObj = { views: viewsVideo };
-    const viewsString = JSON.stringify(viewsObj);
-    
-    const modeObj = { mode: "video" };
-    const modeString = JSON.stringify(modeObj);
-
-    localStorage.setItem('urlVideo', urlString);
-    localStorage.setItem('titleVideo', titleString);
-    localStorage.setItem('viewsVideo', viewsString);
-    localStorage.setItem('modeVideo', modeString);
-    window.location.href = "/video";*/
 }

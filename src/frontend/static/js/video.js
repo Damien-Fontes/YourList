@@ -6,9 +6,12 @@ let videosPlaylist = new Array()
 let videosSuggestion = new Array();
 let videoPrincipale;
 
+//Appelé au chargement de la page
+//Récupère les données de la vidéo dans le localStorage
+//Récupère l'id de la playlist si mode "playlist" et vérifie qu'elle appartient à l'utilisateur 
+//Affiche la vidéo principale
+//Effectue une recherche de vidéos (API) avec le titre de la vidéo principale pour récupérer les vidéos de suggestion 
 function onLoad() {
-    // loadJSON();
-
     const urlString = localStorage.getItem('urlVideo');
     const urlObj = JSON.parse(urlString);
 
@@ -26,33 +29,26 @@ function onLoad() {
     views = viewsObj.views;
     thumbnail = thumbnailsObj.thumbnail;
 
+    //Affichage de la vidéo principale
     videoPrincipale = new Video(title, url, "0", "Youtube", thumbnail, views);
     codeVideoP = "<iframe class=\"box\" id=\"player\" src=\"" + url + "\" frameborder=\"0\" scrolling=\"yes\" seamless=\"seamless\"></iframe>"
     document.getElementById("playerVideo").innerHTML = codeVideoP;
 
+    //Affichage des infos la vidéo principale
     codeInfoV = "<p class=\"textVideoInfoEtendu\"><b> " + title + "</b> | " + views + " vues</p>"
         + "<input type=\"button\" class=\"ajouterBouton\" id=\"ajouterBoutonVideoPrincipale\" value=\"+\" onclick=\"boutonAjouterVideoPrincipale()\"/>"
         + "<p class=\"textVideoInfoEtendu\">Plateforme : Youtube </p>";
     document.getElementById("informationsVideo").innerHTML = codeInfoV;
 
-    // let box = document.querySelector(".box");
-    // let widthV = box.offsetWidth;
-    // let heigthV = (widthV * 574) / 1021;
-    // let heigthStr = heigthV + "px";
-    // document.getElementById("playerVideo").style.height = heigthStr;
-    // document.getElementById("playerVideo").style.width = heigthStr;
-    // console.log((widthV * 574) / 1021 + "px");
-
     const modeString = localStorage.getItem('modeVideo');
     const modeObj = JSON.parse(modeString);
     mode = modeObj.mode;
-    console.log(mode);
 
+    //Si mode playlist on affiche la playlist
     if (mode == "playlist") {
         const idPlaylistString = localStorage.getItem('idPlaylist');
         const idPlaylistObj = JSON.parse(idPlaylistString);
         idPlaylist = idPlaylistObj.idPlaylist;
-        console.log(idPlaylist);
 
         $.ajax({
             type: "POST",
@@ -66,7 +62,8 @@ function onLoad() {
             }
         });
     }
-    
+
+    //Recherche avec le titre de la vidéo pour les suggestions
     $.ajax({
         type: "POST",
         url: "/getDataRechercher",
@@ -77,6 +74,8 @@ function onLoad() {
     });
 }
 
+//Bouton '+' sous la vidéo principale
+//Récupère et affiche les playlists de l'utilisateur (s'il est connecté)
 function boutonAjouterVideoPrincipale() {
     codeDiv = "<ol class=\"zone_playlist\">";
     $.ajax({
@@ -95,6 +94,7 @@ function boutonAjouterVideoPrincipale() {
             ajouterBouton = document.getElementById("ajouterBoutonVideoPrincipale");
             var rect = ajouterBouton.getBoundingClientRect();
 
+            //Positionnement de la div
             popUpDiv = document.getElementsByClassName("popUpListePlaylist")[0];
             popUpDiv.innerHTML = codeDiv;
             popUpDiv.style.left = rect.left + 20 + "px";
@@ -112,13 +112,15 @@ function boutonAjouterVideoPrincipale() {
     });
 }
 
+//Bouton '+' de la liste des playlist lorsqu'on appuye sur le bouton '+'
+//Ajoute la vidéo principale à la playlist
+//Entrée : id de la playlist
 function ajouterVideoPlaylist(idPlaylist) {
     $.ajax({
         type: "POST",
         url: "/addVideoPlaylist",
         data: { id: id, idPlaylist: idPlaylist, titre: videoPrincipale.titre, lien: videoPrincipale.lien, duree: videoPrincipale.duree, site: videoPrincipale.site, thumbnail: videoPrincipale.thumbnail, vues: videoPrincipale.vues },
         success: function (data) {
-            console.log(data);
             if (data == "alreadyExist")
                 confirm('Vidéo déjà ajoutée à la Playlist');
         }
@@ -126,6 +128,7 @@ function ajouterVideoPlaylist(idPlaylist) {
     document.getElementsByClassName("popUpListePlaylist")[0].style.display = "none";
 }
 
+//Récupère les infos de la playlist grâce à son id
 function getPlaylistById() {
     $.ajax({
         type: "POST",
@@ -140,6 +143,7 @@ function getPlaylistById() {
     });
 }
 
+//Récupère les vidéos d'une playlist grâce à son id
 function getVideoPlaylist() {
     $.ajax({
         type: "POST",
@@ -156,6 +160,8 @@ function getVideoPlaylist() {
     });
 }
 
+//Affiche les vidéos de la playlist
+//Si la vidéo correspond à la vidéo principale, on ajoute l'id="videoListActive" pour la mettre en bleue
 function affichageVideoPlaylist() {
     document.getElementById("zone_titrePlaylist").innerHTML = playlist.titre;
     code = "";
@@ -174,6 +180,12 @@ function affichageVideoPlaylist() {
     document.getElementById("zone_suitePlaylist").innerHTML = code;
 }
 
+//Si on clic sur une vidéo
+//Sauvegarde les données de la vidéo dans localStorage et l'id de la playlist
+//Redirection vers video.html
+//Si mode = 'playlist' on sauvegarde l'id de la playlist
+//Si mode = 'video' on sauvegarde pas l'id de la playlist 
+//Entrée : url, titre, nombre de vues et miniature de la vidéo et le mode.
 function clickVideo(urlVideo, titleVideo, viewsVideo, videoTthumbnail, mode) {
     const urlObj = { url: urlVideo };
     const urlString = JSON.stringify(urlObj);
@@ -184,7 +196,7 @@ function clickVideo(urlVideo, titleVideo, viewsVideo, videoTthumbnail, mode) {
     const viewsObj = { views: viewsVideo };
     const viewsString = JSON.stringify(viewsObj);
 
-    const thumbnailsObj = { thumbnail: thumbnailVideo };
+    const thumbnailsObj = { thumbnail: videoTthumbnail };
     const thumbnailString = JSON.stringify(thumbnailsObj);
 
     const modeObj = { mode: mode };
@@ -204,6 +216,8 @@ function clickVideo(urlVideo, titleVideo, viewsVideo, videoTthumbnail, mode) {
     window.location.href = "/video";
 }
 
+//Plus utilisée
+//Ancien bouton rechercher (celui avec la loupe)
 function boutonRechercher() {
     var param = document.getElementById("rechercher").value;
     const obj = { parametres: param };
@@ -212,11 +226,15 @@ function boutonRechercher() {
     window.location.href = "/accueil";
 }
 
+//Gère l'affichage de la partie droite : suggestion
+//Chaque trois vidéos il y a une pub (320x50)
+//Entrée : JSON de vidéo avec leurs informations
 async function callBackGetSuccess(data) {
     idAjouterBouton = 0;
     let code = "";
     var iPub = 0;
 
+    //Création d'un tableau videosSuggestion contenant toutes les vidéos de data
     data.video_results.forEach(function (element) {
         link = element.link;
         title = element.title;
@@ -235,6 +253,7 @@ async function callBackGetSuccess(data) {
         idAjouterBouton++;
     });
 
+    //Pour chaque vidéos du tableau videosSuggestion on créé un <li>
     videosSuggestion.forEach(function (video) {
         code += "<li class='videoList'>"
             + "<img class='thumbnail' src=\"" + video.thumbnail
@@ -246,6 +265,7 @@ async function callBackGetSuccess(data) {
             + "<input type=\"button\" class=\"ajouterBouton\" id=\"" + video.boutonID + "\" value=\"+\" onclick=\"boutonAjouterSuggestion(this.id)\"/>"
             + "</div></li>";
 
+        //chaque trois vidéo un met une pub
         iPub++;
         if (iPub == 3) {
             iPub = 0;
@@ -259,17 +279,19 @@ async function callBackGetSuccess(data) {
     });
 }
 
+//Bouton '+' des vidéos suggestion (partie droite)
+//Entrée : id du bouton sélectionné  
 function boutonAjouterSuggestion(idBouton) {
     boutonAjouter(idBouton, videosSuggestion);
 }
 
+//Récupère un tableau contenant les pubs (sélectionée aléatoirement) à afficher.
 function affichagePub() {
     $.ajax({
         type: "POST",
         url: "/getRandomPubByFormat",
         data: { pubNmb: pubNmb, format: "320x50" },
         success: function (data) {
-            console.log(data);
             i = 0;
             data.forEach(function (pub) {
                 code = "<img class=\"videoListPubImgSuggestion\" src=\"/static/data/pub/" + pub[5] + "/" + pub[0] + pub[4] + "\"/>"

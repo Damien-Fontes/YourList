@@ -6,6 +6,9 @@ class Profil {
     }
 }
 
+//Vérifie si la personne est connecté et possède un compte entreprise
+//Si oui : ok
+//Si non : redirection vers connexionEntreprise.html
 $.ajax({
     type: "POST",
     url: "/isConnectedEntreprise",
@@ -21,16 +24,20 @@ $.ajax({
     }
 });
 
-//id utilisateur
+//Récupère id utilisateur
 const idString = localStorage.getItem('id');
 const idObj = JSON.parse(idString);
 
 id = idObj.id;
+
+//Redirection vers la page passé en paramètre
 function allerA(fichier) {
     str = "/" + fichier;
     window.location.href = str;
 }
 
+//Bouton accueil du menu
+//Redirection vers accueilEntreprise.html
 function accueilEntreprise() {
     $.ajax({
         type: "POST",
@@ -41,6 +48,8 @@ function accueilEntreprise() {
     });
 }
 
+//Bouton compte du menu
+//Redirection vers compteEntreprise.html
 function compteEntreprise() {
     $.ajax({
         type: "POST",
@@ -51,6 +60,8 @@ function compteEntreprise() {
     });
 }
 
+//Bouton se déconnecter du menu
+//Redirection vers connexionEntreprise.html
 function seDeconnecter() {
     $.ajax({
         type: "POST",
@@ -61,6 +72,7 @@ function seDeconnecter() {
     });
 }
 
+//Redirection vers inscriptionEntreprise.html
 function inscrire() {
     $.ajax({
         type: "POST",
@@ -71,6 +83,8 @@ function inscrire() {
     });
 }
 
+//Redirection vers pubEntreprise
+//Sauvegarde dans le localStorage l'id de la pub sélectionner
 function pubEntreprise(idPub) {
     $.ajax({
         type: "POST",

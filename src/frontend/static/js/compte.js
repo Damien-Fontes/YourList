@@ -1,5 +1,7 @@
 var profil;
 
+//Appelé au chargement de la page
+//Récupère les informations de l'utilisateur connecté
 function onLoad() {
     $.ajax({
         type: "POST",
@@ -14,9 +16,9 @@ function onLoad() {
     });
 }
 
+//Affiche les informations de l'utilisateur connecté
+//Entrée : tableau contenant les informations du l'utilisateur
 function affichageProfil(data) {
-    console.log(data);
-
     profil = new Profil(data[1], data[3], data[4], data[7]);
 
     document.getElementById("zone_login").innerHTML += profil.login;
@@ -25,6 +27,8 @@ function affichageProfil(data) {
     document.getElementById("zone_Email").innerHTML += profil.email;
 }
 
+//Affiche la <div></div> pour modifier les informations de l'utilisateur,
+//Remplie les champs avec les valeurs par défault correspondant à la var profil
 function modifierCompte() {
     document.getElementById("modificationCompte").style.display = "block";
     document.getElementById("champs_Login").value = profil.login;
@@ -33,13 +37,15 @@ function modifierCompte() {
     document.getElementById("champs_Email").value = profil.email;
 }
 
+//Appelé par le bouton valider (ou modifier)
+//Récupère les valeurs des champs pour modifier les informations de l'utilisateur
+//Recharge la page
 function validerModifications() {
     profil.login = document.getElementById("champs_Login").value;
     profil.nom = document.getElementById("champs_Nom").value;
     profil.prenom = document.getElementById("champs_Prenom").value;
     profil.email = document.getElementById("champs_Email").value;
 
-    console.log(profil);
     $.ajax({
         type: "POST",
         url: "/updateUser",

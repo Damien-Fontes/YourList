@@ -1,3 +1,5 @@
+//Appelée au chargement de la page
+//Récupère l'id de la pub dans le localStorage
 function onLoad() {
     const idPubString = localStorage.getItem('idPub');
     const idPubObj = JSON.parse(idPubString);
@@ -6,21 +8,22 @@ function onLoad() {
     getPub(idPub);
 }
 
+//Récupère les information de la pub en fonction de l'id pub
+//Entrée : id de la pub
 function getPub(idPub) {
-    console.log(idPub);
     idPub = idPub.substr(6);
-    console.log(idPub);
     $.ajax({
         type: "POST",
         url: "/getPubByIdUIdP",
         data: { id: id, idPub: idPub },
         success: function (data) {
-            console.log(data);
             affichagePub(data);
         }
     });
 }
 
+//Affiche la pub sur la page html grâce aux données de data
+//Entrée : tableau contenant les données de la pub à afficher
 function affichagePub(data) {
     document.getElementById("zone_titre").innerHTML += data[1];
     document.getElementById("zone_clics").innerHTML += data[2] + " clics";

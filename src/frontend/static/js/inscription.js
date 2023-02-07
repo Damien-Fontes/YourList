@@ -1,3 +1,6 @@
+//Récupère les valeurs des champs
+//Créé un nouvel utilisateur non Entreprise si login n'existe pas déjà
+//Redirection vers connexion.html
 function boutonInscription() {
     var login = document.getElementById("login").value;
     var mdp = document.getElementById("mdp").value;

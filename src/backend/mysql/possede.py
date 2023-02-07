@@ -4,7 +4,9 @@ import sys
 sys.path.append('./src/backend/mysql/')
 from connexion import *
 from config import *
-                
+
+#Créée une nouvelle ligne possede
+#Entrée : idUtilisateur, idPlaylist               
 def createPossede(idU, idP):
     request = "INSERT INTO possede (idUtilisateur, idPlaylist) VALUES (%s, %s)"
     params = [idU, idP]
@@ -13,6 +15,8 @@ def createPossede(idU, idP):
             c.execute(request, params)
             db.commit()
 
+#Entrée : idUtilisateur, idPlaylist               
+#Sortie : Ligne possede correspondant à (idUtilisateur,idPlaylist)
 def verificationPossede(idU, idP):    
     request = "SELECT * FROM possede WHERE idUtilisateur = %s AND idPlaylist = %s"
     params = [idU, idP]
@@ -23,6 +27,8 @@ def verificationPossede(idU, idP):
             for idL in resultats:
                 return(idL)
      
+#Supprime la ligne possede
+#Entrée : idUtilisateur, idPlaylist               
 def supprimerPossedeSQL(idPlaylist, idUtilisateur):
     request = ("DELETE FROM possede WHERE idPlaylist = %s AND idUtilisateur=%s")
     params = [idPlaylist, idUtilisateur]

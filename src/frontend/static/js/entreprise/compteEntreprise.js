@@ -1,5 +1,8 @@
+//Objet profil
 let profil;
 
+//Au chargement de la page
+//Récupère l'utilisateur correspondant à l'id de la personne connectée
 function onLoad() {
     $.ajax({
         type: "POST",
@@ -15,6 +18,8 @@ function onLoad() {
     });   
 }
 
+//Remplie les champs html avec les données de data (utilisateur)
+//Entrée : tableau d'info de l'utilisateur connecté
 function affichageProfil(data) {
     profil = new Profil(data[1], data[5], data[7]);
 
@@ -23,6 +28,8 @@ function affichageProfil(data) {
     document.getElementById("zone_email").innerHTML += profil.email;
 }
 
+//Récupère les pubs appartenant à l'utilisateur
+//Entrée : Pas utilisée
 function getPub(data) {
     $.ajax({
         type: "POST",
@@ -37,9 +44,10 @@ function getPub(data) {
     });   
 }
 
+//Affiche les différentes pubs de l'utilisateur
+//Entrée : tableau des pubs l'utilisateur connecté
 function affichagePub(data) {
     code = "";
-    console.log(data);
     data.forEach(function (pub) {
         idPub = "pubImg" + pub[0];
         pathPub = "/static/data/pub/" + pub[5] + "/" + pub[0] + pub[4];
@@ -47,7 +55,6 @@ function affichagePub(data) {
             + "<img class=\"pubImgClass\" id=\"" + idPub + "\" src=\"" + pathPub + "\" onclick=\"pubEntreprise(this.id)\"/>"
             + "</div>";
     });
-    console.log(code);
     // <img id=\"pubImg\" src=\"/static/data/pub/9.jpg\"/>
     document.getElementById("zone_pubCompte").innerHTML = code;
 }

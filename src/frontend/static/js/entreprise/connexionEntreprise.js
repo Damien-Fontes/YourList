@@ -1,3 +1,4 @@
+//Récupère les valeurs des champs et les tests 
 function boutonConnexion() {
     var login = document.getElementById("login").value;
     var mdp = document.getElementById("mdp").value;
@@ -16,6 +17,8 @@ function boutonConnexion() {
     });
 }
 
+//Récupère les informations de l'utilisateur et sauvegarde l'id dans le local storage
+//Entrée : login de l'utilisateur
 function storageID(login) {
     $.ajax({
         type: "POST",
@@ -32,6 +35,7 @@ function storageID(login) {
     });
 }
 
+//Modifie les cookies pour que la personne soit connecté et compte entreprise
 function cookieConnected() {
     $.ajax({
         type: "POST",
@@ -45,11 +49,15 @@ function cookieConnected() {
 
 const btn = document.getElementById('annulerBtn');
 
+//Bouton annuler
+//Supprime les valeurs des champs
 btn.addEventListener('click', function handleClick(event) {
     document.getElementById("login").value = '';
     document.getElementById("mdp").value = '';
 });
 
+//Bouton s'inscrire
+//Redirection vers inscriptionEntreprise.html
 function inscrire() {
     $.ajax({
         type: "POST",

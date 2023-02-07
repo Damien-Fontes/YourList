@@ -27,10 +27,12 @@ from pub import *
 TEMPLATES_AUTO_RELOAD = True
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
+#Redirection vers la page accueil.
 @app.route('/')
 def index():
     return render_template('accueil.html')
 
+#Définir les cookies pour un compte non entreprise lors de la connexion.
 @app.route('/cookieConnected/', methods=["POST"])
 def cookieConnected():
     resp = make_response('ok')
@@ -38,6 +40,7 @@ def cookieConnected():
     resp.set_cookie('compteEntreprise','false')
     return resp
 
+#Définir les cookies pour un compte entreprise lors de la connexion. 
 @app.route('/cookieConnectedEntreprise/', methods=["POST"])
 def cookieConnectedEntreprise():
     resp = make_response('ok')
@@ -45,6 +48,7 @@ def cookieConnectedEntreprise():
     resp.set_cookie('compteEntreprise','true')
     return resp
 
+#Récupérer les identifiants, hash le mot de passe (sha256), appel login(id,mdp) pour vérifier si l’utilisateur non compte entreprise existe en base de données.
 @app.route('/testConnexion/', methods=["POST"])
 def testConnexion():
     id = request.form['id']
@@ -52,6 +56,7 @@ def testConnexion():
     mdp = hashlib.sha256(mdp.encode('utf-8')).hexdigest()
     return login(id,mdp)
 
+#Récupérer les identifiants, hash le mot de passe (sha256), appel loginEntreprise(login,mdp) pour vérifier si l’utilisateur compte entreprise existe en base de données.
 @app.route('/testConnexionEntreprise/', methods=["POST"])
 def testConnexionEntreprise():
     login = request.form['login']
@@ -59,6 +64,7 @@ def testConnexionEntreprise():
     mdp = hashlib.sha256(mdp.encode('utf-8')).hexdigest()
     return loginEntreprise(login,mdp)
 
+#Regarde les cookies. Vérifie que l’utilisateur soit connecté et que ce ne soit pas un compte entreprise.
 @app.route('/isConnected/', methods=["POST"])
 def isConnected():
     resp = make_response("false")
@@ -71,6 +77,7 @@ def isConnected():
             resp = make_response("true")
     return resp
     
+#Regarde les cookies. Vérifie que l’utilisateur soit connecté et que ce soit un compte entreprise.
 @app.route('/isConnectedEntreprise/', methods=["POST"])
 def isConnectedEntreprise():
     resp = make_response("false")
@@ -82,7 +89,7 @@ def isConnectedEntreprise():
         resp.set_cookie('compteEntreprise','false')
     return resp
 
-    
+#Effectuer une recherche sur l’API serpapi qui renvoie les vidéos youtube en lien avec la recherche   
 @app.route('/getDataRechercher/', methods=["POST"])
 def getDataRechercher():
     input = request.form['input']
@@ -93,6 +100,7 @@ def getDataRechercher():
     res = json.loads(response_API.text)
     return res
 
+#Créer un utilisateur non entreprise
 @app.route('/createUser/', methods=["POST"])
 def createUser():
     login = request.form['login']
@@ -111,6 +119,7 @@ def createUser():
     else:
         return "Mot de passe différent."
 
+#Créer un utilisateur entreprise
 @app.route('/createUserEntreprise/', methods=["POST"])
 def createUserEntreprise():
     login = request.form['login']
@@ -128,12 +137,14 @@ def createUserEntreprise():
     else:
         return "Mot de passe différent."
 
+#Récupérer un utilisateur dans la base de données grâce au login.
 @app.route('/getUserByLogin/', methods=["POST"])
 def getUserByLogin():
     login = request.form['login']
     liste = getUtilisateurByLoginSQL(login)
     return jsonpickle.encode(liste)
 
+#Récupérer un utilisateur dans la base de données grâce à l’identifiant.
 @app.route('/getUserById/', methods=["POST"])
 def getUserById():
     res = []
@@ -146,6 +157,7 @@ def getUserById():
             res.append(user[i])
     return (res)
 
+#Récupérer les playlists d’un utilisateur grâce à son identifiant.
 @app.route('/getPlaylist/', methods=["POST"])
 def getPlaylist():
     res = []
@@ -163,6 +175,7 @@ def getPlaylist():
 
     return (res)
 
+#Créer une nouvelle playlist dans la table ‘playlist’ et une nouvelle ligne dans la table ‘possede’ (table liant les playlists aux utilisateurs).
 @app.route('/creationPlaylist/', methods=["POST"])
 def creationPlaylist():
     idUser = request.form['id']
@@ -172,6 +185,7 @@ def creationPlaylist():
     createPossede(idUser, idPlaylist)
     return "ok"
 
+#Ajouter une vidéo dans une playlist d’un utilisateur. Si la vidéo n’existe pas dans la table ‘video’, ajoute la vidéo à la table.
 @app.route('/addVideoPlaylist/', methods=["POST"])
 def addVideoPlaylist():
     idUser = request.form['id']
@@ -192,6 +206,7 @@ def addVideoPlaylist():
     else:
         return "alreadyExist"
 
+#Vérifier si un utilisateur possède bien une playlist.
 @app.route('/verifPossede/', methods=["POST"])
 def verifPossede():
     idUser = request.form['id']
@@ -200,6 +215,7 @@ def verifPossede():
         return "Playlist n'appartenant pas à l'utilisateur"
     return "ok"
 
+#Renvoyer une playlist grâce à son identifiant.
 @app.route('/playlistById/', methods=["POST"])
 def playlistById():
     idPlaylist = request.form['id']
@@ -214,6 +230,7 @@ def playlistById():
         res.append(playlist[3])
     return res
 
+#Renvoyer toutes les vidéos d’une playlist
 @app.route('/getVideoPlaylist/', methods=["POST"])
 def getVideoPlaylist():
     idPlaylist = request.form['id']
@@ -226,6 +243,7 @@ def getVideoPlaylist():
             res.append(getVideoById(video[0]))
     return res
     
+#Supprimer une vidéo d’une playlist. Il faut donc supprimer une ligne de la table contient (table liant les playlists aux vidéos)
 @app.route('/supprimerVideoPlaylist/', methods=["POST"])
 def supprimerVideoPlaylist():
     idVideo = request.form['idVideo']
@@ -236,6 +254,7 @@ def supprimerVideoPlaylist():
         supprimerContient(idVideo, idPlaylist)
     return "ok"
   
+#Modifier le nom d’une playlist grâce à son identifiant.
 @app.route('/modifierTitrePlaylist/', methods=["POST"])
 def modifierTitrePlaylist():
     idPlaylist = request.form['idPlaylist']
@@ -243,6 +262,7 @@ def modifierTitrePlaylist():
     modifierTitrePlaylistById(idPlaylist, titre)
     return "ok"
 
+#Supprimer une playlist. Il faut aussi supprimer toutes les lignes où son identifiant apparaît dans les tables ‘contient’ et ‘possede’.
 @app.route('/supprimerPlaylist/', methods=["POST"])
 def supprimerPlaylist():
     idPlaylist = request.form['idPlaylist']
@@ -257,6 +277,7 @@ def supprimerPlaylist():
             supprimerContient(contient[0], contient[1])
     return "ok"
 
+#Modifier un utilisateur avec les nouvelles valeurs.
 @app.route('/updateUser/', methods=["POST"])
 def updateUser():
     id = request.form['id']
@@ -267,6 +288,7 @@ def updateUser():
     modifierUser(id, login, nom, prenom, email)
     return "ok"
 	
+#Créer une nouvelle publicité dans la table ‘pub’.
 @app.route('/uploaderEntreprise/', methods = ['GET', 'POST'])
 def uploaderEntreprise():
     if request.method == 'POST':
@@ -280,7 +302,8 @@ def uploaderEntreprise():
         path = "./src/frontend/static/data/pub/" + format + "/" + str(id) + pathlib.Path(f.filename).suffix
         f.save(path)
         return render_template("entreprise/uploaderEntreprise.html")
-	
+
+#Renvoyer toutes les publicités liées à un compte entreprise.	
 @app.route('/getPubByIdUtilisateur/', methods = ['GET', 'POST'])
 def getPubByIdUtilisateur():
     if request.method == 'POST':
@@ -300,7 +323,8 @@ def getPubByIdUtilisateur():
             res[i].append(pub[7])
             i=i+1
         return res
-	
+
+#Renvoyer une publicité en fonction de son identifiant et de l’identifiant de l’utilisateur.	
 @app.route('/getPubByIdUIdP/', methods = ['GET', 'POST'])
 def getPubByIdUIdP():
     if request.method == 'POST':
@@ -317,7 +341,8 @@ def getPubByIdUIdP():
         res.append(pub[6])
         res.append(pub[7])
         return res
-	
+
+#Renvoyer un nombre de publicités choisies aléatoirement en fonction de leur format
 @app.route('/getRandomPubByFormat/', methods = ['GET', 'POST'])
 def getRandomPubByFormat():
     if request.method == 'POST':
@@ -329,6 +354,7 @@ def getRandomPubByFormat():
             res.append(pubs[random.randint(0, len(pubs)-1)])
         return res
 
+#Ajouter 1 au nombre de fois qu’un utilisateur à cliquer sur la publicité.
 @app.route('/clickPub/', methods = ['GET', 'POST'])
 def clickPub():
     if request.method == 'POST':
@@ -338,6 +364,7 @@ def clickPub():
         res = [(getPubByIdSQL(idPub)[0])]
         return res
 
+#Permet de se rendre sur la page connexion.html
 @app.route('/connexion/', methods=["GET","POST"])
 def connexion():
     resp = make_response(render_template('connexion.html'))
@@ -345,6 +372,7 @@ def connexion():
     resp.set_cookie('compteEntreprise','false')
     return resp
 
+#Permet de se rendre sur la page inscription.html
 @app.route('/inscription/', methods=["GET","POST"])
 def inscription():
     resp = make_response(render_template('inscription.html'))
@@ -352,10 +380,12 @@ def inscription():
     resp.set_cookie('compteEntreprise','false')
     return resp
 
+#Permet de se rendre sur la page video.html
 @app.route('/video/', methods=["GET","POST"])
 def video():
     return render_template("video.html")
 
+#Permet de se rendre sur la page playlist.html
 @app.route('/playlist/', methods=["GET","POST"])
 def playlist():
     if(request.cookies.get('connected') == "true"):
@@ -364,6 +394,7 @@ def playlist():
         resp = make_response(render_template("accueil.html"))
     return resp
 
+#Permet de se rendre sur la page compte.html
 @app.route('/compte/', methods=["GET","POST"])
 def compte():
     if(request.cookies.get('connected') == "true"):
@@ -371,7 +402,8 @@ def compte():
     else:
         resp = make_response(render_template("accueil.html"))
     return resp
-    
+ 
+#Permet de se rendre sur la page modifierPlaylist.html   
 @app.route('/modifierPlaylist/', methods=["GET","POST"])
 def modifierPlaylist():
     if(request.cookies.get('connected') == "true"):
@@ -380,18 +412,21 @@ def modifierPlaylist():
         resp = make_response(render_template("accueil.html"))
     return resp    
 
+#Permet de se rendre sur la page connexionEntreprise.html
 @app.route('/connexionEntreprise/', methods=["GET","POST"])
 def connexionEntreprise():
     resp = make_response(render_template('entreprise/connexionEntreprise.html'))
     resp.set_cookie('connected','false')
     return resp
 
+#Permet de se rendre sur la page inscriptionEntreprise.html
 @app.route('/inscriptionEntreprise/', methods=["GET","POST"])
 def inscriptionEntreprise():
     resp = make_response(render_template('entreprise/inscriptionEntreprise.html'))
     resp.set_cookie('connected','false')
     return resp
-    
+
+#Permet de se rendre sur la page accueilEntreprise.html    
 @app.route('/accueilEntreprise/', methods=["GET","POST"])
 def accueilEntreprise():
     if(request.cookies.get('connected') == "true"):
@@ -399,7 +434,8 @@ def accueilEntreprise():
     else:
         resp = make_response(render_template("entreprise/connexionEntreprise.html"))
     return resp   
-        
+  
+#Permet de se rendre sur la page compteEntreprise.html      
 @app.route('/compteEntreprise/', methods=["GET","POST"])
 def compteEntreprise():
     if(request.cookies.get('connected') == "true"):
@@ -407,7 +443,8 @@ def compteEntreprise():
     else:
         resp = make_response(render_template("entreprise/connexionEntreprise.html"))
     return resp    
-    
+
+#Permet de se rendre sur la page pubEntreprise.html    
 @app.route('/pubEntreprise/', methods=["GET","POST"])
 def pubEntreprise():
     if(request.cookies.get('connected') == "true"):
