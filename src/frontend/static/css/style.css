@@ -342,6 +342,34 @@ input {
     height: 517.5px;
 }
 
+@media (max-width:1650px) {
+    #player {
+        width: 820px;
+        height: 461.25px;
+    }
+}
+
+@media (max-width:1450px) {
+    #player {
+        width: 720px;
+        height: 405px;
+    }
+}
+
+@media (max-width:1270px) {
+    #player {
+        width: 620px;
+        height: 348.75px;
+    }
+}
+
+@media (max-width:1100px) {
+    #player {
+        width: 520px;
+        height: 292.5px;
+    }
+}
+
 #drop_zone {
     border: 5px solid blue;
     width: 200px;

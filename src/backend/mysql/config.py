@@ -1,7 +1,7 @@
 connection_params = {
-    'host': "yourlist",
+    'host': "localhost",
     'port': "3306",
-    'user': "root",
+    'user': "yourlistRoot",
     'password': "root",
-    'database': "yourlist",
+    'database': "yourlist"
 }
